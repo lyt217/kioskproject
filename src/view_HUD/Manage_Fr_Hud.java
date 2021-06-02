@@ -25,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
@@ -42,20 +43,24 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	Vcontrol vcm;
 
-	JPanel panel, pan_navi, pan_clock;
+	String inputPassword = "";
+	JPanel panel, pan_navi, pan_clock, adminPWPanel;
 	public JButton bt[] = new JButton[4]; // 네비게이션 버튼 4개(화면, 회원, 재고, 매상)
-	public JPanel seat50; // 50개 패널을 담기 위한 그릇
+	public JPanel seat50, adminPanel; // 50개 패널을 담기 위한 그릇
 	int pX, pY;
 	int x = 0, y = 0; // 좌표 계속 움직이게 해주는 x, y
 	int sx = 92, sy = 0;
-
+	int manageCount = 0;
+	long millisec = 0;
 	JPopupMenu popup;
 	JMenuItem allOnSeat, allOffSeat, turnOnSeat, turnOffSeat, calculSeat;
 	JPanel pan_imgClock;
 	Image image, image2, image3;
 	Image img;
 
+	
 	static Payment_Hud paymentHud;
+	public Control_Fr_Hud control_fr_hud;
 	
 	public Manage_Fr_Hud() {
 		vcm =  Vcontrol.getInstance("매니지프레임HUD");
@@ -82,27 +87,117 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 		panel.setLayout(null);
 		panel.setBounds(0, 0, 1920, 1080);
 
+		
+		//비밀번호패널
+		adminPWPanel = new MyPanel("img/btn_password.png");
+		adminPWPanel.setLayout(null);
+		adminPWPanel.setBounds(505, 45, 909, 73);
+		adminPWPanel.setOpaque(false);
+		adminPWPanel.addMouseListener(new MouseListener() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		    	System.out.println("x : "+String.valueOf(e.getLocationOnScreen().x));
+		    	int xPos = e.getLocationOnScreen().x;
+		    	
+		    	if(xPos >= 508 && xPos <= 572) {
+		    		// 0
+		    		inputPassword = inputPassword + "0";
+		    	}
+		    	else if(xPos >= 605 && xPos <= 670) {
+		    		// 1
+		    		inputPassword = inputPassword + "1";
+		    	}
+		    	else if(xPos >= 697 && xPos <= 759) {
+		    		// 2
+		    		inputPassword = inputPassword + "2";
+		    	}
+		    	else if(xPos >= 787 && xPos <= 848) {
+		    		// 3
+		    		inputPassword = inputPassword + "3";
+		    	}
+		    	else if(xPos >= 884 && xPos <= 944) {
+		    		// 4
+		    		inputPassword = inputPassword + "4";
+		    	}
+		    	else if(xPos >= 977 && xPos <= 1038) {
+		    		// 5
+		    		inputPassword = inputPassword + "5";
+		    	}
+		    	else if(xPos >= 1071 && xPos <= 1132) {
+		    		// 6
+		    		inputPassword = inputPassword + "6";
+		    	}
+		    	else if(xPos >= 1163 && xPos <= 1223) {
+		    		// 7
+		    		inputPassword = inputPassword + "7";
+		    	}
+		    	else if(xPos >= 1257 && xPos <= 1317) {
+		    		// 8
+		    		inputPassword = inputPassword + "8";
+		    	}
+		    	else if(xPos >= 1349 && xPos <= 1408) {
+		    		// 9
+		    		inputPassword = inputPassword + "9";
+		    	}
+		    	
+		    	if(inputPassword.length() == 4) {
+			    	boolean passwordChk = vcm.checkPassword(inputPassword);
+			    	if(passwordChk == false) {
+			    		JOptionPane.showMessageDialog(null, "비밀번호 오류", "",
+								JOptionPane.ERROR_MESSAGE);
+			    		turnOffAdmin();
+			    	}
+			    	else {
+			    		showAManageFrame();
+			    	}
+		    	}
+		    }
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+	    });
 		// 시계패널
-		pan_imgClock = new MyPanel2();
-		pan_imgClock.setLayout(null);
-		pan_imgClock.setBounds(20, 20, 179, 149);
-		pan_imgClock.setOpaque(false);
+//		pan_imgClock = new MyPanel2();
+//		pan_imgClock.setLayout(null);
+//		pan_imgClock.setBounds(20, 20, 179, 149);
+//		pan_imgClock.setOpaque(false);
 
 		// 시계글씨패널
-		pan_clock = new MyClock();
-		pan_clock.setBounds(80, 53, 100, 100);
-		pan_clock.setOpaque(false); // 이걸 해줘야 뒤에가 투명해진다.
+//		pan_clock = new MyClock();
+//		pan_clock.setBounds(80, 53, 100, 100);
+//		pan_clock.setOpaque(false); // 이걸 해줘야 뒤에가 투명해진다.
 
 		// 별똥별 애니메이션 패널
-		JPanel star = new MyStarPanel("img/starDdong.png");
-		star.setLayout(null);
-		star.setBounds(0, 10, 1920, 1080);
-		star.setOpaque(false);
+//		JPanel star = new MyStarPanel("img/starDdong.png");
+//		star.setLayout(null);
+//		star.setBounds(0, 10, 1920, 1080);
+//		star.setOpaque(false);
 
 		// 네비게이션 패널 첫번째 1200,828
 		pan_navi = new JPanel();
 		pan_navi.setLayout(null);
-		pan_navi.setBounds(1440, 958, 400, 70);
+		pan_navi.setBounds(0, 0, 1920, 1080);
 		pan_navi.setOpaque(false);
 		// 네비게이션 안에 들어가는 버튼들
 		int temp[] = { 91, 95, 80, 79 };
@@ -116,43 +211,57 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 //			x += temp[i];
 //			pan_navi.add(bt[i]);
 //		}
-		bt[0] = new JButton(new ImageIcon("img/bt_navi_4.png"));
+		bt[0] = new JButton(new ImageIcon("img/btn_charge_on.png"));
 		bt[0].setBorderPainted(false);
 		bt[0].setFocusPainted(false);
 		bt[0].setContentAreaFilled(false);
 		bt[0].addActionListener(this);
-		bt[0].setBounds(x, -2, 70, 70);
+		bt[0].setBounds(810, 30, 300, 85);
 		x += temp[0];
 		pan_navi.add(bt[0]);
 
-		bt[1] = new JButton(new ImageIcon("img/bt_navi_5.png"));
+		Image imgmanager = (new ImageIcon("img/btn_manage.png")).getImage();
+		imgmanager = imgmanager.getScaledInstance(65, 72, Image.SCALE_SMOOTH);
+		
+		bt[1] = new JButton(new ImageIcon(imgmanager));
 		bt[1].setBorderPainted(false);
 		bt[1].setFocusPainted(false);
 		bt[1].setContentAreaFilled(false);
 		bt[1].addActionListener(this);
-		bt[1].setBounds(x, -2, 70, 70);
+		bt[1].setBounds(71, 36, 65, 72);
 		x += temp[1];
 		pan_navi.add(bt[1]);
+		
+
+//		bt[2] = new JButton(new ImageIcon("img/bt_navi_5.png"));
+//		bt[2].setBorderPainted(false);
+//		bt[2].setFocusPainted(false);
+//		bt[2].setContentAreaFilled(false);
+//		bt[2].addActionListener(this);
+//		bt[2].setBounds(71, 46, 86, 96);
+//		x += temp[1];
+//		pan_navi.add(bt[2]);
+		
 		
 		
 		// 좌석 패널 시작 시작점 165 129
 		seat50 = new JPanel();
 		seat50.setLayout(null);
 		seat50.setOpaque(false);
-		seat50.setBounds(198, 131, 1642, 823);
+		seat50.setBounds(60, 131, 1800, 949);
 		x = 0;
 		y = 0;
 		for (int i = 0; i < 50; i++) {
 			pan[i] = new view_HUD.Seat_pan(i);
 			if (i % 10 == 0 && i != 0) {
 				x = 0;
-				y += 140;
+				y += 175;
 			}
 			// System.out.print("x : " + x + " y :" + y + " ");
-			pan[i].setBounds(x, y, 99, 99);
+			pan[i].setBounds(x, y, 165, 165);
 			pan[i].x = x + 165;
-			pan[i].y = y + 79 + 30;
-			x += 135;
+			pan[i].y = y + 165 + 10;
+			x += 175;
 		}
 
 		// 셀렉트패널영역
@@ -164,9 +273,12 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 		// 마지막 붙이기
 		lpane.add(panel, new Integer(0), 0);
 
-		lpane.add(pan_imgClock, new Integer(4), 0);
-		lpane.add(pan_clock, new Integer(5), 0); // 시계패널은 최상단
-		lpane.add(star, new Integer(3), 0);
+		lpane.add(adminPWPanel, new Integer(5), 0);
+		adminPWPanel.setVisible(false);
+		
+//		lpane.add(pan_imgClock, new Integer(4), 0);
+//		lpane.add(pan_clock, new Integer(5), 0); // 시계패널은 최상단
+//		lpane.add(star, new Integer(3), 0);
 		lpane.add(pan_navi, new Integer(2), 0);
 
 		lpane.add(seat50, new Integer(2), 0);
@@ -476,6 +588,32 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 		}
 	}
 
+	public void turnOnAdmin() {
+		adminPWPanel.setVisible(true);
+		bt[0].setVisible(false);
+		inputPassword = "";
+	}
+
+	public void turnOffAdmin() {
+		adminPWPanel.setVisible(false);
+		bt[0].setVisible(true);
+		inputPassword = "";
+		manageCount = 0;
+	}
+
+	private void showAManageFrame() {
+		
+		System.out.println("START CONTROL FRAME");
+		 control_fr_hud = new Control_Fr_Hud();
+		 control_fr_hud.dispose();
+		 control_fr_hud.setUndecorated(true);
+		 control_fr_hud.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+		 control_fr_hud.setVisible(true);
+//		 dispose();
+	}
+	
+	
 	@SuppressWarnings("serial")
 	class MyClock extends JPanel {
 		Calendar ctoday = Calendar.getInstance();
@@ -532,6 +670,36 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 //			popup.show(Manage_Fr_Hud.this, 1504, 901);
 			// 올온!
 		} else if (e.getSource() == bt[1]) {
+			
+			Calendar calendar = Calendar.getInstance();
+			long thisMS = calendar.getTimeInMillis();
+			
+			if(millisec < thisMS - 10000) {
+				millisec = thisMS;
+				manageCount = 0;
+				System.out.println("milisec : "+String.valueOf(millisec));
+			}
+			else {
+				if(manageCount < 6) {
+					manageCount++;
+					System.out.println("mngCnt : "+String.valueOf(manageCount));
+				}
+			}
+			
+			if(manageCount >= 6) {
+				if(vcm.inManagementMode == false) {
+					System.out.println("manageStart");
+					vcm.inManagementMode = true;
+					turnOnAdmin();
+				}
+				else {
+					vcm.inManagementMode = false;
+					turnOffAdmin();
+				}
+			}
+	//		popup.show(Manage_Fr_Hud.this, 1504, 901);
+			// 올온!
+		} else if(e.getSource() == bt[2]) {
 			new Join();
 //			popup.show(Manage_Fr_Hud.this, 1504, 901);
 			// 올온!

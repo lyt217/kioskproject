@@ -35,22 +35,32 @@ public class Seat_pan extends Seat_panAb implements ActionListener,
 	public Seat_pan(int i) {
 		num = i;
 		isChecked = false;
-		img("gameOff");
+		
+		String sName = "";
+		if(num+1 < 10) {
+			sName = "numbers/0"+String.valueOf(num+1);
+		}
+		else {
+			sName = "numbers/"+String.valueOf(num+1);
+		}
+		img(sName);
+		
+//		img("gameOff");
 		setLayout(null);
 
 		// 제이레이어드 패널
 		lpane = new JLayeredPane();
-		lpane.setBounds(0, 0, 1600, 900);
+		lpane.setBounds(0, 0, 1920, 1080);
 		lpane.setLayout(null);
 		lpane.setOpaque(false);
 		// 이미지 패널
 		JPanel panel = new InnerPanel();
-		panel.setBounds(0, 0, 99, 99);
+		panel.setBounds(0, 0, 165, 165);
 		panel.setOpaque(false);
 		// 안에 들어갈 내용물들
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(null);
-		panel2.setBounds(0, 0, 99, 99);
+		panel2.setBounds(0, 0, 165, 165);
 
 		int y = 15;
 		for (int a = 0; a < 4; a++) {
@@ -115,7 +125,7 @@ public class Seat_pan extends Seat_panAb implements ActionListener,
 			// System.out.println("이미지 불러옵니다~");
 			img = ImageIO.read(new File("img/" + s + ".png"));
 		} catch (IOException e) {
-			System.out.println("이미지 불러오기 실패!");
+			System.out.println("이미지 "+s+" 불러오기 실패!");
 			System.exit(0);
 		}
 		repaint();
@@ -123,12 +133,27 @@ public class Seat_pan extends Seat_panAb implements ActionListener,
 
 	/** 이부분이 상태 체크 */
 	public void turnOn() {
-		img("gameOn");
+//		String imgName = "";
+//		if(num+1 < 10) {
+//			imgName = "numbers/0"+String.valueOf(num+1);
+//		}
+//		else {
+//			imgName = "numbers/"+String.valueOf(num+1);
+//		}
+//		img(imgName);
+		img("button_off");
 		isTurned = true;
 	}
 
 	public void turnOff() {
-		img("gameOff");
+		String imgName = "";
+		if(num+1 < 10) {
+			imgName = "numbers/0"+String.valueOf(num+1);
+		}
+		else {
+			imgName = "numbers/"+String.valueOf(num+1);
+		}
+		img(imgName);
 		isTurned = false;
 	}
 

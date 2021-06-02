@@ -21,9 +21,11 @@ package control;
  * 번호 파라미터 하나만 받아서 모두 처리하도록.. 
  */
 import java.awt.Color;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -34,10 +36,16 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import assets.DBConnectionMgr;
 import control.manage_member.dbprocess.ReadMemberProcess;
+import control.manage_store.dbprocess.StoreInfoProcess;
 import model.People;
 import model.Seat;
 import view.Login_Fr;
@@ -50,6 +58,7 @@ import view_HUD.Manage_Fr_Hud;
 
 import java.io.FileDescriptor;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 
@@ -67,34 +76,68 @@ public class Vcontrol {
 	public HashMap<Seat, Socket> clients 
 		= new HashMap<Seat, Socket>();
 	public Seat[] pcseat = new Seat[50];
-	Manage mf;
+	static Manage mf;
 	
 	public static MsgToCustomer[] chatClient = new MsgToCustomer[50];
 	static Login_Fr login_Fr;
 	static Login_Fr_Hud login_Fr_Hud;
 
+	static Manage_Fr_Hud manage_Fr_Hud;
+	static String storeName = "";
+	public boolean inManagementMode = false;
+
 	public static void main(String[] args) {
-//		Scanner scanner = new Scanner(System.in);
-//		System.out.print("어떤 프레임을 선택하실지 입력 1은 프로토 2는 hud");
-//		int i = scanner.nextInt();
-//		if (i == 1) {
-//			login_Fr= new Login_Fr();
-//		} else {
-		login_Fr_Hud = new Login_Fr_Hud();
-		login_Fr_Hud.dispose();
-		login_Fr_Hud.setUndecorated(true);
-		login_Fr_Hud.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		InetAddress ip = null;
+		try{
+			
+//				final DatagramSocket socket = new DatagramSocket()){
+			
+			//FOR WINDOWS//
+//		  socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+//		  ip = socket.getLocalAddress().getHostAddress();
+		  
+			Socket socket = new Socket();
+			socket.connect(new InetSocketAddress("google.com", 80));
+			ip = socket.getLocalAddress();
+			String externalAddress = getIp();
+			
+			socket.close();
+			
+			String internalAddress = ip.toString().replace("/", "");
+			
+			storeName = StoreInfoProcess.checkStore(externalAddress, internalAddress);
+			
+			
+			System.out.println(storeName+" FROM IP ADDRESS : "+internalAddress+" / "+externalAddress);
+		} catch(Exception e) {
+			
+		}
+		
+		if(storeName.equals("")) {
+			JOptionPane.showMessageDialog(null, "등록되지 않은 PC방입니다.", "키오스크를 실행할 수 없습니다.",
+					JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
+		}
+		else {
+	
+			mainFrameHUD();
+		}
+	
+		// login_Fr_Hud = new Login_Fr_Hud();
+		// login_Fr_Hud.dispose();
+		// login_Fr_Hud.setUndecorated(true);
+		// login_Fr_Hud.setExtendedState(JFrame.MAXIMIZED_BOTH);
 //		}
 //		scanner.close();
 		
 
-		try {
-			TimeUnit.SECONDS.sleep(1);
-			login_Fr_Hud.setVisible(true);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			TimeUnit.SECONDS.sleep(1);
+//			login_Fr_Hud.setVisible(true);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 			
 	}
 
@@ -106,7 +149,7 @@ public class Vcontrol {
 		host.start();
 	}
 
-	public void mainFrameHUD() {
+	public static void mainFrameHUD() {
 		mf = new Manage_Fr_Hud();
 		
 		mf.dispose();
@@ -114,7 +157,7 @@ public class Vcontrol {
 		mf.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		mf.setVisible(true);
 		
-		login_Fr_Hud.dispose();
+//		login_Fr_Hud.dispose();
 		Thread host = new HostPcServer();
 		host.start();
 	}
@@ -331,6 +374,31 @@ public class Vcontrol {
 		new CalculatorFrame(peoples);
 	}
 
+	public boolean checkPassword(String password) {
+		boolean flag = false;
+		flag = StoreInfoProcess.checkPassword(password, storeName);
+		
+		return flag;
+	}
+	public static String getIp() throws Exception {
+        URL whatismyip = new URL("http://checkip.amazonaws.com");
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new InputStreamReader(
+                    whatismyip.openStream()));
+            String ip = in.readLine();
+            return ip;
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+	
 	public void test(int num) {
 		System.out.println("브이컨트롤 : " + num);
 	}
