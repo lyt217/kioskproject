@@ -48,6 +48,7 @@ import control.manage_member.dbprocess.ReadMemberProcess;
 import control.manage_store.dbprocess.StoreInfoProcess;
 import model.People;
 import model.Seat;
+import model.Store;
 import view.Login_Fr;
 import view.Manage;
 import view.Manage_Fr;
@@ -85,7 +86,7 @@ public class Vcontrol {
 	static Manage_Fr_Hud manage_Fr_Hud;
 	static String storeName = "";
 	public boolean inManagementMode = false;
-
+	private static Store thisStore;
 	public static void main(String[] args) {
 		InetAddress ip = null;
 		try{
@@ -105,7 +106,8 @@ public class Vcontrol {
 			
 			String internalAddress = ip.toString().replace("/", "");
 			
-			storeName = StoreInfoProcess.checkStore(externalAddress, internalAddress);
+			thisStore = StoreInfoProcess.checkStore(externalAddress, internalAddress);
+			storeName = thisStore.getStoreName();
 			
 			
 			System.out.println(storeName+" FROM IP ADDRESS : "+internalAddress+" / "+externalAddress);
@@ -196,7 +198,7 @@ public class Vcontrol {
 	}
 
 	// 03.컴퓨터켜짐 from HostPcServer
-	public void turnOn(int num) {
+	public void turnOn(int num, int hour) {
 		System.out.println("브이컨트롤  : 턴온시작!");
 		mf.pan[num].setBackground(Color.white);
 		mf.pan[num].label[1].setText("자리 켜짐");
@@ -401,5 +403,9 @@ public class Vcontrol {
 	
 	public void test(int num) {
 		System.out.println("브이컨트롤 : " + num);
+	}
+	
+	public Store getStore() {
+		return thisStore;
 	}
 }

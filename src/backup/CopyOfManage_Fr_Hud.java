@@ -444,7 +444,7 @@ public class CopyOfManage_Fr_Hud extends Manage implements ActionListener {
 						
 						break;
 					case 2:
-						vcm.turnOn(s);
+						vcm.turnOn(s, 60);
 						break;
 					case 3:
 						vcm.turnOff(s);
@@ -523,7 +523,7 @@ public class CopyOfManage_Fr_Hud extends Manage implements ActionListener {
 		} else if (e.getSource() == turnOnSeat) {
 			for (int i = 0; i < 50; i++) {
 				if (pan[i].isChecked == true) {
-					vcm.turnOn(i);
+					vcm.turnOn(i, 60);
 					pan[i].checkOff();
 				}
 			}

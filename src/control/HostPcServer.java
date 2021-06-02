@@ -74,7 +74,7 @@ public class HostPcServer extends Thread {
 				System.out.println("호스트 피시 : " + "이 사람의 이름은 " + name + "입니다.");
 
 				// 컴퓨터 켜진 상태로 만든다.
-				vc.turnOn(num);
+				vc.turnOn(num, 60);
 				// 네트워크 연결중 요청 메시지 계속 받기 처리
 				while (in != null) {
 					String s = in.readUTF();

@@ -10,11 +10,11 @@ import model.manage_member.MemberInfo;
 public class DepositMemberProcess {
 
 	
-	public static int insertMoney(String id, int money) {
+	public static int insertMoney(String id, int money, int store_id) {
 		Connection con = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		String sql = null;
+		String sql = null, sql2 = null;
 		int flag = 0; // 0은 실패, 1=회원가입 성공, 2=아이디가 중복됨
 		DBConnectionMgr pool = null;
 
@@ -44,8 +44,13 @@ public class DepositMemberProcess {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, minute);
 			pstmt.setString(2, id);
+			pstmt.executeUpdate();
 			
-
+			sql2 = "INSERT INTO purchase (store_id, member_id, amount) VALUE (?, ?, ?)";
+			pstmt = con.prepareStatement(sql2);
+			pstmt.setInt(1, store_id);
+			pstmt.setString(2, id);
+			pstmt.setInt(3, money);
 			pstmt.executeUpdate();
 			
 			flag2 = true;

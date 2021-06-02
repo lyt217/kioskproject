@@ -146,6 +146,7 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 			    		JOptionPane.showMessageDialog(null, "비밀번호 오류", "",
 								JOptionPane.ERROR_MESSAGE);
 			    		turnOffAdmin();
+			    		millisec = 0;
 			    	}
 			    	else {
 			    		showAManageFrame();
@@ -574,7 +575,7 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 						
 						break;
 					case 2:
-						vcm.turnOn(s);
+						vcm.turnOn(s, 0);
 						break;
 					case 3:
 						vcm.turnOff(s);
@@ -603,6 +604,7 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 
 	private void showAManageFrame() {
 		
+		turnOffAdmin();
 		System.out.println("START CONTROL FRAME");
 		 control_fr_hud = new Control_Fr_Hud();
 		 control_fr_hud.dispose();
@@ -713,13 +715,13 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 			seatThread.start();
 			// 턴온시트
 		} else if (e.getSource() == turnOnSeat) {
-			for (int i = 0; i < 50; i++) {
-				if (pan[i].isChecked == true) {
-					vcm.turnOn(i);
-					pan[i].checkOff();
-				}
-			}
-			// 턴오프시트
+//			for (int i = 0; i < 50; i++) {
+//				if (pan[i].isChecked == true) {
+//					vcm.turnOn(i);
+//					pan[i].checkOff();
+//				}
+//			}
+//			// 턴오프시트
 		} else if (e.getSource() == turnOffSeat) {
 			for (int i = 0; i < 50; i++) {
 				if (pan[i].isChecked == true) {

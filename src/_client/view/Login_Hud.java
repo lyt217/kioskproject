@@ -57,7 +57,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 		setLocation(width, height);
 		// 이미지 받아오기
 		try {
-			img = ImageIO.read(new File("img/member_login.jpg"));
+			img = ImageIO.read(new File("img/member_login2.png"));
 
 		} catch (IOException e) {
 			System.out.println("이미지 불러오기 실패!");
@@ -66,7 +66,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 
 		// 가장 큰 JLayer패널= 레이어를 순서대로 올려줌
 		JLayeredPane lpane = new JLayeredPane();
-		lpane.setBounds(0, 0, 1440, 2560);
+		lpane.setBounds(0, -500, 1440, 2560);
 		lpane.setLayout(null);
 
 		// 첫번째 panel = 텍스트필드 tf, tf2 들어감.
@@ -81,63 +81,70 @@ public class Login_Hud extends JFrame implements ActionListener {
 		panel2.setBackground(Color.black);
 		panel2.setOpaque(false);
 
-		JLabel usernameLabel = new JLabel("아이디");
-		usernameLabel.setBounds(100, 1450, 280, 30);
-		usernameLabel.setForeground(Color.white);
-		panel2.add(usernameLabel);
+//		JLabel usernameLabel = new JLabel("아이디");
+//		usernameLabel.setBounds(100, 1450, 280, 30);
+//		usernameLabel.setForeground(Color.white);
+//		panel2.add(usernameLabel);
 		
 		tf = new JTextField(15);
-		tf.setBounds(100, 1480, 280, 50);
-//		tf.setBounds(100, 1800, 280, 50);
-		tf.setBackground(Color.white);
+		tf.setOpaque(false);
+		tf.setBounds(480, 1363, 280, 40);
+//		tf.setBackground(Color.white);
 		tf.setForeground(Color.black);
 		tf.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,5,5,5));
 		panel2.add(tf);
-		
-		JLabel pwLabel = new JLabel("비밀번호");
-		pwLabel.setBounds(100, 1540, 280, 30);
-		pwLabel.setForeground(Color.white);
-		panel2.add(pwLabel);
+//		
+//		JLabel pwLabel = new JLabel("비밀번호");
+//		pwLabel.setBounds(100, 1540, 280, 30);
+//		pwLabel.setForeground(Color.white);
+//		panel2.add(pwLabel);
 		
 		// 두번째 텍스트 731, 529  -> 891, 619
 		tf2 = new JPasswordField(15);
-		tf2.setBounds(100, 1570, 280, 50);
+		tf2.setOpaque(false);
+		tf2.setBounds(480, 1450, 280, 40);
 //		tf2.setBounds(100, 1900, 280, 30);
-		tf2.setBackground(Color.white);
+//		tf2.setBackground(Color.white);
 		tf2.setForeground(Color.black);
 		tf2.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,5,5,5));
 		tf.setDocument(new JTextFieldLimit(10));
 		tf2.setDocument(new JTextFieldLimit(10));
 		panel2.add(tf2);
 
-		bt = new JButton("로그인");//
+		bt = new JButton();//
 		//new ImageIcon("img/btLogin_hud.png")); // 587 458 에
 																// 위치해야한다.
 //		bt.setBorderPainted(false);
 //		bt.setFocusPainted(false);
 //		bt.setContentAreaFilled(false);
-		bt.setOpaque(true);
-		bt.setBackground(new Color(0x3EAF0E));
-		bt.setBounds(100, 1640, 135, 48);
+		bt.setOpaque(false);
+//		bt.setBackground(new Color(0x3EAF0E));
+		bt.setBounds(566, 1526, 170, 60);
 //		bt.setBounds(100, 2000, 104, 48);
 		bt.addActionListener(this);
-		bt.setForeground(Color.white);
+//		bt.setForeground(Color.white);
+		bt.setBorderPainted( false );
+		bt.setFocusPainted( false );
+		bt.setContentAreaFilled( false );
 		panel2.add(bt);
 		
 		
 
-		btj = new JButton("회원가입");//
+		btj = new JButton();//
 		//new ImageIcon("img/btLogin_hud.png")); // 587 458 에
 																// 위치해야한다.
 //		btj.setBorderPainted(false);
 //		btj.setFocusPainted(false);
 //		btj.setContentAreaFilled(false);
-		btj.setOpaque(true);
-		btj.setBackground(new Color(0xFEE500));
-		btj.setBounds(245, 1640, 135, 48);
+		btj.setOpaque(false);
+//		btj.setBackground(new Color(0xFEE500));
+		btj.setBounds(300, 1526, 200, 60);
 //		btj.setBounds(100, 2000, 104, 48);
 		btj.addActionListener(this);
-		btj.setForeground(Color.black);
+//		btj.setForeground(Color.black);
+		btj.setBorderPainted( false );
+		btj.setFocusPainted( false );
+		btj.setContentAreaFilled( false );
 		panel2.add(btj);
 		
 
