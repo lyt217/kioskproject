@@ -130,7 +130,7 @@ public class ReadMemberProcess {
 			int num = 0;
 			// id, tel, mileage, age
 			con = pool.getConnection();
-			sql = "select id,tel,mileage,age, remainSecond from member where id=?";
+			sql = "select id,tel,mileage,age, remainSecond from member where id = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
@@ -155,6 +155,42 @@ public class ReadMemberProcess {
 
 	}
 	// 회원DB에서 값읽어 오는 메소드 종료
-	
+	public static boolean updateSecond(String id, int variation) {
+		boolean flag = false; 
+		ResultSet rs = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		DBConnectionMgr pool = null;
+		MemberInfo memberInfo=null;
+		
+		try {
+			pool = DBConnectionMgr.getInstance();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+
+			int num = 0;
+			// id, tel, mileage, age
+			con = pool.getConnection();
+			sql = "UPDATE member SET remainSecond = remainSecond + ( ? ) WHERE id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, variation);
+			pstmt.setString(2, id);
+			
+			if (pstmt.executeUpdate() == 1) {
+				flag = true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return flag;
+	}
 
 }

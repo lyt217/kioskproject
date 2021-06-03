@@ -100,9 +100,9 @@ public class Seat_pan extends Seat_panAb implements ActionListener,
 		miInfo.addActionListener(this);
 		miChat = new JMenuItem("메세지보내기");
 		miChat.addActionListener(this);
-		pMenu.add(miEnd);
-		pMenu.add(miInfo);
-		pMenu.add(miChat);
+		// pMenu.add(miEnd);
+		// pMenu.add(miInfo);
+		// pMenu.add(miChat);
 		// 패널에 마우스 리스너를 붙인다. JPopupMenu는 이런식으로 구현을 해야 한다..
 		addMouseListener(new MousePopupListener());
 	}

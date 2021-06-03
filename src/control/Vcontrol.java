@@ -44,6 +44,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import assets.DBConnectionMgr;
+import control.manage_member.dbprocess.JoinMemberProcess;
 import control.manage_member.dbprocess.ReadMemberProcess;
 import control.manage_store.dbprocess.StoreInfoProcess;
 import model.People;
@@ -240,6 +241,7 @@ public class Vcontrol {
 
 	// 06.로그아웃처리 from HostPcServer
 	public void logout(int num) {
+		String userId = pcseat[num].getUserame();
 		System.out.println("Vcontrol : " + num + "번째 자리를 로그아웃시킬려합니다.");
 		pcseat[num].interrupt();
 		mf.pan[num].setBackground(Color.white);
@@ -252,6 +254,7 @@ public class Vcontrol {
 		pcseat[num].setLogin(false);
 
 		try {
+			
 			socket = clients.get(pcseat[num]);
 			out = new DataOutputStream(socket.getOutputStream());
 			out.writeUTF("로그아웃");
@@ -259,6 +262,11 @@ public class Vcontrol {
 			this.payOff(pcseat[num]);
 			// 클라이언트에서 없애기
 			clients.remove(pcseat[num]);
+			
+			boolean logout = JoinMemberProcess.lastLogout(userId);
+			if(logout == false) {
+				System.out.println("db 로그아웃 처리 실패 ");
+			}
 		} catch (IOException e) {
 			System.out.println("브이컨트롤 : 로그아웃 메시지 보내는 데 실패함");
 		}
@@ -275,6 +283,7 @@ public class Vcontrol {
 
 	// 08. 계속 좌석 계산해주고 바로 밑에 센드 from Seat
 	public void continueMoney(int num, Calendar date) {
+		System.out.println("CONTINUEMONEY (SEAT : "+String.valueOf(num)+") ");
 		int money = pcseat[num].getMoney();
 		mf.pan[num].label[3].setText(money + "원");
 
@@ -295,22 +304,28 @@ public class Vcontrol {
 		try {
 			int remainsecond = ReadMemberProcess.remainSecond(pcseat.getUserame());
 			
-			long hour = (long) remainsecond / 3600;
-			long minute = (remainsecond % 3600) / 60;
-			int second = remainsecond % 60;
-			
-			if(hour > 0) {
-				gametime = hour + "시간 "+minute+"분 ";
+			if(remainsecond < 0) {
+				logout(pcseat.getNum_seat());
 			}
 			else {
-				gametime = minute+"분 ";
+				long hour = (long) remainsecond / 3600;
+				long minute = (remainsecond % 3600) / 60;
+				int second = remainsecond % 60;
+				
+				if(hour > 0) {
+					gametime = hour + "시간 "+minute+"분 ";
+				}
+				else {
+					gametime = minute+"분 ";
+				}
+				out = new DataOutputStream(clients.get(pcseat).getOutputStream());
+				out.writeUTF("요금정보");
+				out.writeInt(money);
+				out.writeUTF(gametime);
 			}
-			out = new DataOutputStream(clients.get(pcseat).getOutputStream());
-			out.writeUTF("요금정보");
-			out.writeInt(money);
-			out.writeUTF(gametime);
 		} catch (IOException e) {
 			System.out.println("브이컨트롤 : 요금정보 메시지 보내는데 애로사항이 꽃핀다. ");
+			logout(pcseat.getNum_seat());
 		}
 	}
 

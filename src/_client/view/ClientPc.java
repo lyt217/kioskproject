@@ -6,6 +6,10 @@ import javax.swing.*;
 
 import java.awt.event.*;
 import java.net.*;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.io.*;
 
 //현재 사용중인 피시방 이용자의 이용시간과 이용요금창을 보여준다
@@ -27,6 +31,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 	private ClientChat chat;
 	private Menu menu;
 	protected static boolean doClient=true;
+	ScheduledExecutorService executor;
 
 	ClientPc(String id, String pc, String kioskIp) {// 클라이언트 생성자시작
 
@@ -79,7 +84,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 		panel.add(userTime);
 		panel.add(userPc);
 		panel.add(userPrice);
-		panel.add(chatBtn);
+		// panel.add(chatBtn);
 		panel.add(menuBtn);
 //		panel.add(price_label);
 		panel.setLayout(null);
@@ -99,6 +104,10 @@ public class ClientPc {// 클라이언트 클래스 시작
 		clFrame.setVisible(true);
 		// 소켓 쓰레드시작
 		new Thread(new ClientConnector()).start();
+
+		executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(timerRunnerble, 0, 10, TimeUnit.SECONDS);
+		
 
 	}// 클라이언트 생성자종료
 
@@ -123,19 +132,19 @@ public class ClientPc {// 클라이언트 클래스 시작
 		public void actionPerformed(ActionEvent arg0) {
 //			Menu menu = new Menu(out,Integer.parseInt(pc));
 			try {
-//
-//				System.out.println("logout");
-//				if(out == null) {
-//
-//					out = new DataOutputStream(new BufferedOutputStream(
-//							socket.getOutputStream()));
-//				}
-//				int pcNum = Integer.parseInt(pc);
-//				out.writeInt(pcNum);
-//				out.writeUTF(id);
-//				out.writeUTF("로그아웃");
-//				out.flush();
-				socket.close();
+
+				System.out.println("logout");
+				if(out == null) {
+
+					out = new DataOutputStream(new BufferedOutputStream(
+							socket.getOutputStream()));
+				}
+				int pcNum = Integer.parseInt(pc);
+				out.writeInt(pcNum);
+				out.writeUTF(id);
+				out.writeUTF("로그아웃");
+				out.flush();
+				// socket.close();
 				
 //				socket.close();
 			} catch (IOException e) {
@@ -192,14 +201,13 @@ public class ClientPc {// 클라이언트 클래스 시작
 					// 로그아웃 처리부
 					if (str.equals("로그아웃")) {
 
+						// doClient = false;
+						executor.shutdown();
 						socket.close();
 						
 						clFrame.dispose();
 						login_Fr_Hud = new Login_Hud();
-						login_Fr_Hud.dispose();
-						login_Fr_Hud.setUndecorated(true);
-						login_Fr_Hud.setExtendedState(JFrame.MAXIMIZED_BOTH);
-						login_Fr_Hud.setVisible(true);
+						
 					}
 				}
 
@@ -208,9 +216,12 @@ public class ClientPc {// 클라이언트 클래스 시작
 				if (chat != null) {
 					chat.closeFrame();
 				}
+				// if(doClient == true){
 				doClient=false;
 				clFrame.dispose();
-				ClientLogin cl = new ClientLogin();
+				// ClientLogin cl = new ClientLogin();
+				login_Fr_Hud = new Login_Hud();
+				// }
 
 			} finally {
 				if (in != null) {
@@ -248,4 +259,19 @@ public class ClientPc {// 클라이언트 클래스 시작
             }
         };
     }
+    
+    Runnable timerRunnerble = new Runnable() {
+		public void run() {
+			try {
+				out.writeUTF("요금확인");
+				out.writeInt(Integer.parseInt(pc));
+				out.flush();
+			} catch (NumberFormatException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		   System.out.println("Hello World!"); 
+		}
+    };
+	
 }// 클라이언트 클래스 종료

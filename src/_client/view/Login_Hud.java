@@ -58,6 +58,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 		// 프레임 기본 설정
 		setTitle("회원 로그인");
 		setSize(1440, 2560);
+		setUndecorated(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 //		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBackground(Color.black);
 		setLayout(null);
@@ -258,9 +260,9 @@ public class Login_Hud extends JFrame implements ActionListener {
 			} else {
 				// 로그인 쿼리
 				Computer computer = null;
-				boolean existId = DB_query.loginMember(tf.getText(), String.valueOf(tf2.getPassword()), thisStore.getStoreName());
+				int existId = DB_query.loginMember(tf.getText(), String.valueOf(tf2.getPassword()), thisStore.getStoreName());
 	
-				if (existId == true) // 로그인 가능 판별
+				if (existId == 1) // 로그인 가능 판별
 					
 				{
 					computer = GetComputer.getComputer(internalAddress, thisStore.getStoreId());
@@ -280,7 +282,12 @@ public class Login_Hud extends JFrame implements ActionListener {
 					}
 					dispose();
 					
-				} else {
+				} else if(existId == 2){
+					JOptionPane.showMessageDialog(null,"잔여시간이 5분 미만입니다.", "요금 충전 후 이용하세요.",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
+				
 					JOptionPane.showMessageDialog(null, "로그인에 실패하였습니다.", "로그인 실패",
 							JOptionPane.INFORMATION_MESSAGE);
 				}

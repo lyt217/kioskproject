@@ -8,6 +8,8 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import control.manage_member.dbprocess.ReadMemberProcess;
+
 public class HostPcServer extends Thread {
 	Vcontrol vc = Vcontrol.getInstance("호스트서버"); // 싱글톤불러오기;
 	ServerReceiver receiver = null;
@@ -87,6 +89,15 @@ public class HostPcServer extends Thread {
 						vc.logout(num);
 						break; // 화면변환 메소드
 					case "컴퓨터끔":
+						break;
+					case "요금확인":
+						
+						int pcNum = in.readInt();
+						System.out.println(String.valueOf(pcNum)+" REQUESTED REAMIN TIME");
+						boolean trued = ReadMemberProcess.updateSecond(name, -10);
+						if(trued == true) {
+							vc.sendTime(vc.pcseat[pcNum], 0, "");
+						}
 						break;
 					case "메시지":
 						String message = in.readUTF();

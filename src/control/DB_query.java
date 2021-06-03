@@ -104,14 +104,14 @@ public class DB_query {
  
 	// 아이디 비교 메소드 종료
 	// 로그인 메소드
-	public static boolean loginMember(String id, String pass, String storeName) {
+	public static int loginMember(String id, String pass, String storeName) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		String hashPass = "hash_pass 초기값";
-		boolean flag = false;
+		int flag = 0;
 		DBConnectionMgr pool = null;
 
 		try {
@@ -130,7 +130,7 @@ public class DB_query {
 				pstmt.setString(1, id);
 			}
 			else {
-				sql = "select password from member where id = ? and storeName = ?";
+				sql = "select password, remainSecond from member where id = ? and storeName = ?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, id);
 				pstmt.setString(2, storeName);
@@ -139,6 +139,7 @@ public class DB_query {
 			rs = pstmt.executeQuery();
 			rs.next();
 			hashPass = rs.getString("password");
+			int remainSec = rs.getInt("remainSecond");
 			// System.out.println(hashPass);
 
 			//if (BCrypt.checkpw(pass, hashPass))
@@ -146,16 +147,20 @@ public class DB_query {
 			
 
 			if (BCrypt.checkpw(pass, hashPass)) {
-				flag = true;
+				flag = 1;
 			}
 			else {
 				String encrypt_Pass = BCrypt.hashpw(pass, BCrypt.gensalt(12));
 				if(encrypt_Pass.equals(hashPass)) {
-					flag = true;
+					flag = 1;
 				}
 				else {
 					System.out.println(encrypt_Pass+" | "+hashPass);
 				}
+			}
+			
+			if(flag == 1 && remainSec < 300) {
+				flag = 2;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
