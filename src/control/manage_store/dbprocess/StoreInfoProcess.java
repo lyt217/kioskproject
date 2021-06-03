@@ -188,6 +188,67 @@ public class StoreInfoProcess {
 		}
 		return newStore;
 	}
+	
+
+	public static Store checkStoreOnlyEx(String exAddress) {
+		ResultSet rs = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		DBConnectionMgr pool = null;
+		int storeId = 0;
+		int krwPerHour = 0;
+		String storeName = "";
+		String externalAddress = "";
+		String internalAddress = "";
+		String lscAddress = "";
+		String kioskPassword = "";
+
+		Store newStore = new Store();
+		
+		try {
+			pool = DBConnectionMgr.getInstance();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+
+			int num = 0;
+			// id, tel, mileage, age
+			con = pool.getConnection();
+			sql = "select * from store WHERE external_address = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, exAddress);
+			rs = pstmt.executeQuery();
+//			isExist  pstmt.executeQuery().next();
+			while (rs.next()) {
+				storeId = rs.getInt("id");
+				storeName = rs.getString("store_name");
+				externalAddress = rs.getString("external_address");
+				internalAddress = rs.getString("internal_address");
+				krwPerHour = rs.getInt("krw_per_hour");
+				kioskPassword = rs.getString("kiosk_password");
+				
+				newStore.setExternalAddress(externalAddress);
+				newStore.setInternalAddress(internalAddress);
+				newStore.setKioskPassword(kioskPassword);
+				newStore.setKrwPerHour(krwPerHour);
+				newStore.setStoreId(storeId);
+				newStore.setStoreName(storeName);
+			}
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return newStore;
+	}
+	
 	// 회원 DB로 부터 값을 읽어온다
 	public static void readMember(ArrayList<MemberInfo> list) {
 

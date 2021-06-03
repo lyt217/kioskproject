@@ -8,8 +8,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -25,8 +31,12 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import _client.dbprocess.GetComputer;
 import control.DB_query;
 import control.Vcontrol;
+import control.manage_store.dbprocess.StoreInfoProcess;
+import model.Computer;
+import model.Store;
 
 @SuppressWarnings("serial")
 public class Login_Hud extends JFrame implements ActionListener {
@@ -36,8 +46,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 	JButton bt, btj;
 	JTextField tf;
 	JPasswordField tf2;
-	
-
+	Store thisStore;
+	String internalAddress = "";
 	// 메인
 	public static void main(String[] args) {
 		new Login_Hud();
@@ -48,7 +58,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 		// 프레임 기본 설정
 		setTitle("회원 로그인");
 		setSize(1440, 2560);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBackground(Color.black);
 		setLayout(null);
 		// 중앙사이즈조절
@@ -153,6 +163,27 @@ public class Login_Hud extends JFrame implements ActionListener {
 		lpane.add(panel2, new Integer(1), 0);
 		getContentPane().add(lpane);
 		setVisible(true);
+		
+		
+		
+		Socket socket = new Socket();
+		try {
+			socket.connect(new InetSocketAddress("google.com", 80));
+			InetAddress ip = socket.getLocalAddress();
+			String externalAddress = getIp();
+			
+			socket.close();
+			
+			internalAddress = ip.toString().replace("/", "");
+			thisStore = StoreInfoProcess.checkStoreOnlyEx(externalAddress);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private class JTextFieldLimit extends PlainDocument // 텍스트 필드 글자수 제한을 위한 이너
@@ -184,6 +215,25 @@ public class Login_Hud extends JFrame implements ActionListener {
 		}
 	}
 
+	public static String getIp() throws Exception {
+        URL whatismyip = new URL("http://checkip.amazonaws.com");
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new InputStreamReader(
+                    whatismyip.openStream()));
+            String ip = in.readLine();
+            return ip;
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+	
 	// 액션
 	@SuppressWarnings("deprecation")
 	@Override
@@ -207,17 +257,27 @@ public class Login_Hud extends JFrame implements ActionListener {
 	
 			} else {
 				// 로그인 쿼리
-				boolean existId = DB_query.loginMember(tf.getText(), String.valueOf(tf2.getPassword()));
+				Computer computer = null;
+				boolean existId = DB_query.loginMember(tf.getText(), String.valueOf(tf2.getPassword()), thisStore.getStoreName());
 	
 				if (existId == true) // 로그인 가능 판별
 					
 				{
-					//로그인액션
-					JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.", "로그인 성공",
-							JOptionPane.INFORMATION_MESSAGE);
-					ClientPc.doClient=true;
-					ClientPc cl = new ClientPc(tf.getText(), "49");
+					computer = GetComputer.getComputer(internalAddress, thisStore.getStoreId());
 					
+					if(computer == null || computer.getId() == 0) {
+						System.out.println("NO PC for IP : "+internalAddress);
+						JOptionPane.showMessageDialog(null, "사용이 허가되지 않은 PC입니다.", "관리자에게 문의하세요.",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					else {
+						System.out.println(String.valueOf(computer.getId())+" : "+computer.getInternalAddress()+" ("+String.valueOf(computer.getSeatNumber())+" 번 컴퓨터)");
+						//로그인액션
+						JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.", "로그인 성공",
+								JOptionPane.INFORMATION_MESSAGE);
+						ClientPc.doClient=true;
+						ClientPc cl = new ClientPc(tf.getText(), String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
+					}
 					dispose();
 					
 				} else {

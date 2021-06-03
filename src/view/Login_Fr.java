@@ -149,7 +149,7 @@ public class Login_Fr extends JFrame implements ActionListener {
 
 		} else {
 			//로그인 쿼리
-			boolean existId = DB_query.loginMember(tf.getText(), tf2.getText());
+			boolean existId = DB_query.loginMember(tf.getText(), tf2.getText(), "TEST");
 			
 			if (existId == true) // 로그인 가능 판별
 

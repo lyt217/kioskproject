@@ -90,7 +90,7 @@ public class ReadMemberProcess {
 				String id2 = rs.getString("id");
 				String tel = rs.getString("tel");
 				String mileage = new Integer(rs.getInt("mileage")).toString();
-				String age = new Integer(rs.getInt("age")).toString();
+				String age = rs.getString("age");
 				memberInfo = new MemberInfo(id2, tel, mileage, age);
 				num++;
 			}
@@ -138,7 +138,7 @@ public class ReadMemberProcess {
 				String id2 = rs.getString("id");
 				String tel = rs.getString("tel");
 				String mileage = new Integer(rs.getInt("mileage")).toString();
-				String age = new Integer(rs.getInt("age")).toString();
+				String age = rs.getString("age");
 				remainSecond = new Integer(rs.getInt("remainSecond")); 
 				memberInfo = new MemberInfo(id2, tel, mileage, age);
 				num++;

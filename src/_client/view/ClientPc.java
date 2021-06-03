@@ -15,6 +15,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 	
 	private String id; // 현재 사용중인 아이디 저장
 	private String pc; // 현재 사용중인 피시 번호 저장
+	private String kiosk;
 	private JFrame clFrame;
 	private JLabel userId;
 	private JLabel userPc;
@@ -27,10 +28,12 @@ public class ClientPc {// 클라이언트 클래스 시작
 	private Menu menu;
 	protected static boolean doClient=true;
 
-	ClientPc(String id, String pc) {// 클라이언트 생성자시작
+	ClientPc(String id, String pc, String kioskIp) {// 클라이언트 생성자시작
 
 		this.id = id;
 		this.pc = pc;
+		String originPc = String.valueOf(Integer.parseInt(pc) + 1);
+		this.kiosk = kioskIp;
 		clFrame = new JFrame("이용중");
 		clFrame.setLocationByPlatform( true );
 		clFrame.addWindowListener(getWindowAdapter());
@@ -40,7 +43,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 
 		// 표시라벨
 		userId = new JLabel(id);
-		userPc = new JLabel(pc);
+		userPc = new JLabel(originPc);
 		userTime = new JLabel("");
 		userPrice = new JLabel("");
 
@@ -151,7 +154,9 @@ public class ClientPc {// 클라이언트 클래스 시작
 		@Override
 		public void run() {
 			try {
-				String serverIp = "222.118.199.105";// "172.168.0.80";
+				String serverIp = kiosk;	//"222.118.199.105";// "172.168.0.80";
+				
+				System.out.println("KIOSK IP : "+serverIp);
 				socket = new Socket(InetAddress.getByName(serverIp), 7777);
 				System.out.println("연결성공");
 				in = new DataInputStream(new BufferedInputStream(

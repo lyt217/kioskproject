@@ -159,7 +159,7 @@ public class ClientLogin {// clientlogin 클래스 시작
 			} else if (id.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "아이디 \'비회원\' 으로 로그인 합니다.");
 				login.dispose();
-				ClientPc cl = new ClientPc("비회원", pc.getText());
+				ClientPc cl = new ClientPc("비회원", pc.getText(), "127.0.0.1");
 
 			} else {
 
@@ -172,7 +172,7 @@ public class ClientLogin {// clientlogin 클래스 시작
 					JOptionPane.showMessageDialog(null, "로그인 되었습니다.");
 					login.dispose();
 					ClientPc.doClient=true;
-					ClientPc cl = new ClientPc(id.getText(), "49");
+					ClientPc cl = new ClientPc(id.getText(), "49", "127.0.0.1");
 
 				}
 

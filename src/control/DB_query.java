@@ -101,10 +101,10 @@ public class DB_query {
 		}
 		return flag;
 	}
-
+ 
 	// 아이디 비교 메소드 종료
 	// 로그인 메소드
-	public static boolean loginMember(String id, String pass) {
+	public static boolean loginMember(String id, String pass, String storeName) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -123,10 +123,19 @@ public class DB_query {
 
 		try {
 			con = pool.getConnection();
-			sql = "select password from member where id=?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
-			// System.out.println("id 값은 " + id);
+			
+			if(storeName.equals("TEST")) {
+				sql = "select password from member where id = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, id);
+			}
+			else {
+				sql = "select password from member where id = ? and storeName = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.setString(2, storeName);
+				// System.out.println("id 값은 " + id);
+			}
 			rs = pstmt.executeQuery();
 			rs.next();
 			hashPass = rs.getString("password");
@@ -135,24 +144,19 @@ public class DB_query {
 			//if (BCrypt.checkpw(pass, hashPass))
 			//	flag = true;
 			
-			if(pass.equals("pcbang50") && hashPass.compareTo("$2a$12$sGdBCklErr8x2FnISNElyO4bRRHS2bTmMMGFA72ZTlxCiFfsweODW") == 0) {
+
+			if (BCrypt.checkpw(pass, hashPass)) {
 				flag = true;
 			}
 			else {
-				if (BCrypt.checkpw(pass, hashPass)) {
+				String encrypt_Pass = BCrypt.hashpw(pass, BCrypt.gensalt(12));
+				if(encrypt_Pass.equals(hashPass)) {
 					flag = true;
 				}
 				else {
-					String encrypt_Pass = BCrypt.hashpw(pass, BCrypt.gensalt(12));
-					if(encrypt_Pass.equals(hashPass)) {
-						flag = true;
-					}
-					else {
-						System.out.println(encrypt_Pass+" | "+hashPass);
-					}
+					System.out.println(encrypt_Pass+" | "+hashPass);
 				}
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
