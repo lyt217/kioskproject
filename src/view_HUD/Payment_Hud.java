@@ -121,43 +121,43 @@ public class Payment_Hud extends JFrame implements ActionListener {
 		panel.add(label);
 
 		
-//		try {
-//			CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier("COM1");
-//	        if ( portIdentifier.isCurrentlyOwned() )
-//	        {
-//	            System.out.println("Error: Port is currently in use");
-//	        }
-//	        else
-//	        {
-//	            CommPort commPort = portIdentifier.open("BILL", 6000);
-//	            
-//	            if ( commPort instanceof SerialPort )
-//	            {
-//	                serialPort = (SerialPort) commPort;
-//	                serialPort.setSerialPortParams(19200,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
-////	                serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN);
-//	                
-//	                inStream = serialPort.getInputStream();
-//	                outStream = serialPort.getOutputStream();
-//	                               
-//	        
-//	                (new Thread(new SerialWriter(outStream))).start();
-////	                (new Thread(new SerialReader(in))).start();
-//	                serialPort.addEventListener(new SerialEventHandler());
-//	                //(SerialPortEventListener) new SerialReader(inStream));
-//	                serialPort.notifyOnDataAvailable(true);
-//	                
-//	                
-//
-//	            }
-//	            else
-//	            {
-//	                System.out.println("Error: Only serial ports are handled by this example.");
-//	            }
-//	        }     
-//		} catch (Exception e2) {
-//			e2.printStackTrace();
-//		}
+		try {
+			CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier("COM1");
+	        if ( portIdentifier.isCurrentlyOwned() )
+	        {
+	            System.out.println("Error: Port is currently in use");
+	        }
+	        else
+	        {
+	            CommPort commPort = portIdentifier.open("BILL", 6000);
+	            
+	            if ( commPort instanceof SerialPort )
+	            {
+	                serialPort = (SerialPort) commPort;
+	                serialPort.setSerialPortParams(19200,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
+//	                serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN);
+	                
+	                inStream = serialPort.getInputStream();
+	                outStream = serialPort.getOutputStream();
+	                               
+	        
+	                (new Thread(new SerialWriter(outStream))).start();
+//	                (new Thread(new SerialReader(in))).start();
+	                serialPort.addEventListener(new SerialEventHandler());
+	                //(SerialPortEventListener) new SerialReader(inStream));
+	                serialPort.notifyOnDataAvailable(true);
+	                
+	                
+
+	            }
+	            else
+	            {
+	                System.out.println("Error: Only serial ports are handled by this example.");
+	            }
+	        }     
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
     	
 
 		Image cc = (new ImageIcon("img/cancel1.png")).getImage();
