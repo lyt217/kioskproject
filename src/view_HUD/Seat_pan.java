@@ -63,17 +63,17 @@ public class Seat_pan extends Seat_panAb implements ActionListener,
 		panel2.setBounds(0, 0, 165, 165);
 
 		int y = 15;
-		for (int a = 0; a < 4; a++) {
-			if (a == 0)
-				label[a] = new JLabel((i + 1) + ". 빈자리");
-			else
-				label[a] = new JLabel("");
+		for (int a = 0; a < 1; a++) {
+			// if (a == 0)
+			// 	label[a] = new JLabel((i + 1) + ". 빈자리");
+			// else
+			label[a] = new JLabel("");
 
 			label[a].setBounds(20, y, 80, 15);
 			y += 16;
 			label[a].setForeground(new Color(36, 205, 198));
 			label[a].setFont(new Font("배달의민족 한나", 1, 12));
-//			panel2.add(label[a]);
+			panel2.add(label[a]);
 		}
 		panel2.setOpaque(false);
 

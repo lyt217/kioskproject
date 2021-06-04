@@ -328,10 +328,10 @@ public class Payment_Hud extends JFrame implements ActionListener {
             		resultString = newString;
             	}
             	
-                System.out.println(resultString);
+                System.out.println("RESULT : " + resultString);
                 
             	if( resultString.startsWith("s") &&  resultString.endsWith("e")) {
-                	
+
                 	int money = 0;
                 	if(resultString.equals("sC1e")){
                 		money = 1000;
@@ -346,34 +346,23 @@ public class Payment_Hud extends JFrame implements ActionListener {
                     	money = 50000;
                 	}
 
+                	System.out.println("MONEY : "+String.valueOf(money)+" | KRWPERHOUR : "+String.valueOf(krw_per_hour));
 //                	
             		outStream.write("sBle".getBytes());
             		outStream.flush();
                 		
             		incomed = incomed + money;
-            		int minute = (new Integer(incomed / krw_per_hour * 60)) % 60;
-            		int hour = minute / 60;
+                	System.out.println("incomed : "+String.valueOf(incomed));
+                	
+                	
+            		int minute = (incomed * 60 / krw_per_hour) % 60;
+            		int hour = incomed / krw_per_hour; // / 60;
             		
+            		System.out.println(String.valueOf(incomed)+" inserted / "+String.valueOf(hour)+":"+String.valueOf(minute));
             		hourTF.setText(String.valueOf(hour)+"시간 "+String.valueOf(minute)+"분");
             		btn_confirm.setVisible(true);
-//            		String newString2 = "현재 투입 금액 : "+String.valueOf(incomed)+"원";
-//            		label2.setText(newString2);
-                		
-//                		if(incomed == goal) {
-//                			JOptionPane.showMessageDialog(null, "투입 완료!", "아이디를 입력해주세요",
-//            						JOptionPane.INFORMATION_MESSAGE);
-//                			inputUsername();
-//                		}
-                				
-//                	}
-//                	else {
-//
-//        				JOptionPane.showMessageDialog(null, "투입금액 오류", "",
-//        						JOptionPane.INFORMATION_MESSAGE);
-//                		outStream.write("sBOe".getBytes());
-//                		outStream.flush();
-//                	}
-//                	resultString = "";
+
+                	resultString = "";
             	}
             	
     		}

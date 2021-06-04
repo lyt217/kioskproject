@@ -319,6 +319,10 @@ public class Vcontrol {
 				out.writeUTF("요금정보");
 				out.writeInt(money);
 				out.writeUTF(gametime);
+
+				int num = pcseat.getNum_seat();
+				mf.pan[num].label[0].setText("남은시간 : "+gametime);
+
 			}
 		} catch (IOException e) {
 			System.out.println("브이컨트롤 : 요금정보 메시지 보내는데 애로사항이 꽃핀다. ");

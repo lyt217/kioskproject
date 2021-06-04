@@ -9,7 +9,7 @@ import javax.swing.JPopupMenu;
 
 @SuppressWarnings("serial")
 public abstract class Seat_panAb extends JPanel{
-	public JLabel[] label = new JLabel[4];
+	public JLabel[] label = new JLabel[1];
 	public boolean isChecked;
 	public boolean isLogined;
 	public boolean isTurned;

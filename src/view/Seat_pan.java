@@ -26,19 +26,19 @@ public class Seat_pan extends Seat_panAb implements ActionListener, MouseListene
 		setLayout(new GridLayout(5, 0));
 		
 		
-		label[0] = new JLabel("좌석" + (i + 1));
+		label[0] = new JLabel("");
 		label[0].setBackground(Color.blue);
 		label[0].setForeground(Color.red);
 		
 		setBackground(Color.gray);
-		label[1] = new JLabel("컴퓨터꺼짐");
-		label[2] = new JLabel();
-		label[3] = new JLabel();
+		// label[1] = new JLabel("컴퓨터꺼짐");
+		// label[2] = new JLabel();
+		// label[3] = new JLabel();
 		
 		add(label[0]);
-		add(label[1]);
-		add(label[2]);
-		add(label[3]);
+		// add(label[1]);
+		// add(label[2]);
+		// add(label[3]);
 		
 		
 		setFocusable(true);
