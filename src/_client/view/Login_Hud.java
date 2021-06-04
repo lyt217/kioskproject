@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.beans.Visibility;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +66,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 //		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBackground(Color.black);
 		setLayout(null);
-		setVisible(true);
+		
 		// 중앙사이즈조절
 		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1440) / 2;
 		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 2560 ) / 2;
