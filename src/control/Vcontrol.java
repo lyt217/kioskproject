@@ -199,7 +199,7 @@ public class Vcontrol {
 	public void turnOn(int num, int hour) {
 		System.out.println("브이컨트롤  : 턴온시작!");
 		mf.pan[num].setBackground(Color.white);
-		mf.pan[num].label[1].setText("자리 켜짐");
+		// mf.pan[num].label[1].setText("자리 켜짐");
 		mf.pan[num].turnOn();
 		ddaom(num);
 
@@ -209,7 +209,7 @@ public class Vcontrol {
 	public void turnOff(int num) {
 		System.out.println("자리꺼짐입장");
 		mf.pan[num].setBackground(Color.gray);
-		mf.pan[num].label[0].setText((num + 1) + ". 빈자리");
+		mf.pan[num].label[0].setText("");
 		ddaom(num);
 		mf.pan[num].turnOff();
 	}
@@ -218,12 +218,11 @@ public class Vcontrol {
 	public void login(int num, String name) {
 		int money = pcseat[num].getMoney();
 		mf.pan[num].setBackground(Color.blue);
-		mf.pan[num].label[0].setForeground(Color.red);
-		mf.pan[num].label[0].setText((num + 1) + ". 로그인");
-		mf.pan[num].label[1].setText(name + "님");
-		mf.pan[num].label[2].setText("");
-		mf.pan[num].label[3].setText(money + ""
-				+ "원");
+		// mf.pan[num].label[0].setForeground(Color.red);
+		// mf.pan[num].label[0].setText((num + 1) + ". 로그인");
+		// mf.pan[num].label[1].setText(name + "님");
+		// mf.pan[num].label[2].setText("");
+		// mf.pan[num].label[3].setText(money + ""+ "원");
 		mf.pan[num].isLogined = true;
 		mf.pan[num].nickname = name;
 		pcseat[num].setUsername(name);
@@ -243,7 +242,7 @@ public class Vcontrol {
 		pcseat[num].interrupt();
 		mf.pan[num].setBackground(Color.white);
 		mf.pan[num].label[0].setForeground(new Color(36, 205, 198));
-		mf.pan[num].label[0].setText((num + 1) + ". 빈자리");
+		mf.pan[num].label[0].setText("");
 		ddaom(num);
 		mf.pan[num].isLogined = false;
 		// 인터럽트시켜서 요금 올리기 중지
@@ -272,9 +271,9 @@ public class Vcontrol {
 
 	// 07.나머지 따옴표 처리 from HostPcServer
 	public void ddaom(int num) {
-		mf.pan[num].label[1].setText("");
-		mf.pan[num].label[2].setText("");
-		mf.pan[num].label[3].setText("");
+		// mf.pan[num].label[1].setText("");
+		// mf.pan[num].label[2].setText("");
+		// mf.pan[num].label[3].setText("");
 
 	}
 
@@ -282,7 +281,7 @@ public class Vcontrol {
 	public void continueMoney(int num, Calendar date) {
 		System.out.println("CONTINUEMONEY (SEAT : "+String.valueOf(num)+") ");
 		int money = pcseat[num].getMoney();
-		mf.pan[num].label[3].setText(money + "원");
+		// mf.pan[num].label[3].setText(money + "원");
 
 		Calendar dateAfter = Calendar.getInstance();
 		dateAfter.setTimeInMillis(System.currentTimeMillis());
@@ -291,7 +290,7 @@ public class Vcontrol {
 		long differ_hour = differ / 60;
 
 		String gametime = differ_hour + ":" + (differ % 60) + "초";
-		mf.pan[num].label[2].setText(gametime);
+//		mf.pan[num].label[2].setText(gametime);
 
 		// 바로 밑에 클라이언트로 사용시간 보내주는 메소드 실행
 		sendTime(pcseat[num], money, gametime);
@@ -378,12 +377,12 @@ public class Vcontrol {
 
 		if (x == 1) {
 			peoples.add(new People(num, pcseat[num].getUserame(),
-					mf.pan[num].label[2].getText(), pcseat[num].getMoney()));
+					"", pcseat[num].getMoney()));
 		} else {
 			for (int a = 0; a < 50; a++) {
 				if (mf.pan[a].isChecked && mf.pan[a].isLogined) {
 					peoples.add(new People(a, pcseat[a].getUserame(),
-							mf.pan[a].label[2].getText(), pcseat[a].getMoney()));
+							"", pcseat[a].getMoney()));
 					mf.pan[a].checkOff();
 				}
 			}
