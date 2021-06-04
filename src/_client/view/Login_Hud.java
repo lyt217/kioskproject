@@ -67,6 +67,10 @@ public class Login_Hud extends JFrame implements ActionListener {
 		setBackground(Color.black);
 		setLayout(null);
 		
+		if(this.getExtendedState() == Frame.ICONIFIED) {
+			setVisible(true);
+		}
+		
 		// 중앙사이즈조절
 		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1440) / 2;
 		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 2560 ) / 2;
