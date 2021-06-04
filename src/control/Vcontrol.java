@@ -155,10 +155,7 @@ public class Vcontrol {
 	public static void mainFrameHUD() {
 		mf = new Manage_Fr_Hud();
 		
-		mf.dispose();
-		mf.setUndecorated(true);
-		mf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		mf.setVisible(true);
+
 		
 //		login_Fr_Hud.dispose();
 		Thread host = new HostPcServer();

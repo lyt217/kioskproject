@@ -70,7 +70,10 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
 		setBackground(Color.BLACK);
-
+		
+		setUndecorated(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		mf.setVisible(true);
 		// 프레임 화면 중앙 배열
 		Dimension frameSize = this.getSize();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

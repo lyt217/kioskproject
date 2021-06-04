@@ -78,7 +78,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 
 		// 가장 큰 JLayer패널= 레이어를 순서대로 올려줌
 		JLayeredPane lpane = new JLayeredPane();
-		lpane.setBounds(0, -500, 1440, 2560);
+		lpane.setBounds(0, 0, 1440, 2560);
 		lpane.setLayout(null);
 
 		// 첫번째 panel = 텍스트필드 tf, tf2 들어감.
