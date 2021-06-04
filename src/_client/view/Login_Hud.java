@@ -60,6 +60,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 		setSize(1440, 2560);
 		setUndecorated(true);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setLocationByPlatform( true );
+		addWindowListener(getWindowAdapter());
 //		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBackground(Color.black);
 		setLayout(null);
@@ -297,4 +299,20 @@ public class Login_Hud extends JFrame implements ActionListener {
 			JoinMember join = new JoinMember();
 		}
 	}// 액션 끝
+
+	private WindowAdapter getWindowAdapter() {
+        return new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {//overrode to show message
+                super.windowClosing(we);
+            }
+
+            @Override
+            public void windowIconified(WindowEvent we) {
+            	setState(JFrame.NORMAL);
+//                JOptionPane.showMessageDialog(clFrame, "Cant Minimize");
+            }
+        };
+    }
+
 }

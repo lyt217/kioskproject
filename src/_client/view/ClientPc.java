@@ -200,13 +200,19 @@ public class ClientPc {// 클라이언트 클래스 시작
 					}
 					// 로그아웃 처리부
 					if (str.equals("로그아웃")) {
-
+						Robot r = new Robot();
+						r.setAutoDelay(250);
+						r.keyPress(KeyEvent.VK_WINDOWS);
+						r.keyPress(KeyEvent.VK_D);
+						r.keyRelease(KeyEvent.VK_D);
+						r.keyRelease(KeyEvent.VK_WINDOWS);
+						
 						// doClient = false;
 						executor.shutdown();
 						socket.close();
 						
 						clFrame.dispose();
-						login_Fr_Hud = new Login_Hud();
+						// login_Fr_Hud = new Login_Hud();
 						
 					}
 				}
