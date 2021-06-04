@@ -202,10 +202,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 					if (str.equals("로그아웃")) {
 						Robot r = new Robot();
 						r.setAutoDelay(250);
-						r.keyPress(KeyEvent.VK_WINDOWS);
-						r.keyPress(KeyEvent.VK_D);
-						r.keyRelease(KeyEvent.VK_D);
-						r.keyRelease(KeyEvent.VK_WINDOWS);
+						r.keyPress(KeyEvent.VK_HOME);
 						
 						// doClient = false;
 						executor.shutdown();
