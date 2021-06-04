@@ -175,12 +175,12 @@ public class Login_Hud extends JFrame implements ActionListener {
 		try{
 			TimeUnit.SECONDS.sleep(1);
 		} catch(Exception e){
-			
+
 		}
 		
-		if(this.getExtendedState() == Frame.ICONIFIED) {
-			setVisible(true);
-		}
+		// if(this.getExtendedState() == Frame.ICONIFIED) {
+		setVisible(true);
+		// }
 		
 		Socket socket = new Socket();
 		try {
