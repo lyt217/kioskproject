@@ -229,6 +229,9 @@ public class ClientPc {// 클라이언트 클래스 시작
 				login_Fr_Hud = new Login_Hud();
 				// }
 
+			} catch (AWTException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} finally {
 				if (in != null) {
 					try {
