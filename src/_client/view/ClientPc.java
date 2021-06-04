@@ -209,7 +209,21 @@ public class ClientPc {// 클라이언트 클래스 시작
 						
 						// doClient = false;
 						executor.shutdown();
+						
+						try{
+							TimeUnit.SECONDS.sleep(1);
+						}	catch(Exception e) {
+							
+						}
+						
 						socket.close();
+						
+						
+						try{
+							TimeUnit.SECONDS.sleep(1);
+						}	catch(Exception e) {
+							
+						}
 						
 						clFrame.dispose();
 						// login_Fr_Hud = new Login_Hud();

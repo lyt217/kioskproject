@@ -65,10 +65,11 @@ public class Login_Hud extends JFrame implements ActionListener {
 //		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBackground(Color.black);
 		setLayout(null);
+		setVisible(true);
 		// 중앙사이즈조절
 		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1440) / 2;
 		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 2560 ) / 2;
-		setLocation(width, height);
+		setLocation(0, 0);
 		// 이미지 받아오기
 		try {
 			img = ImageIO.read(new File("img/member_login2.png"));
