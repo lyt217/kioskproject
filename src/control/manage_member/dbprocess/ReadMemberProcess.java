@@ -137,9 +137,9 @@ public class ReadMemberProcess {
 			while (rs.next()) {
 				String id2 = rs.getString("id");
 				String tel = rs.getString("tel");
-				String mileage = new Integer(rs.getInt("mileage")).toString();
+				String mileage = String.valueOf(rs.getInt("mileage"));
 				String age = rs.getString("age");
-				remainSecond = new Integer(rs.getInt("remainSecond")); 
+				remainSecond = rs.getInt("remainSecond"); 
 				memberInfo = new MemberInfo(id2, tel, mileage, age);
 				num++;
 			}
