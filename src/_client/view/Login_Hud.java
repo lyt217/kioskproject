@@ -18,6 +18,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -68,9 +69,6 @@ public class Login_Hud extends JFrame implements ActionListener {
 		setBackground(Color.black);
 		setLayout(null);
 		
-		if(this.getExtendedState() == Frame.ICONIFIED) {
-			setVisible(true);
-		}
 		
 		// 중앙사이즈조절
 		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1440) / 2;
@@ -173,9 +171,16 @@ public class Login_Hud extends JFrame implements ActionListener {
 		lpane.add(panel, new Integer(0), 0);
 		lpane.add(panel2, new Integer(1), 0);
 		getContentPane().add(lpane);
-		setVisible(true);
 		
+		try{
+			TimeUnit.SECONDS.sleep(1);
+		} catch(Exception e){
+			
+		}
 		
+		if(this.getExtendedState() == Frame.ICONIFIED) {
+			setVisible(true);
+		}
 		
 		Socket socket = new Socket();
 		try {
