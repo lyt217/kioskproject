@@ -216,7 +216,13 @@ public class Vcontrol {
 		// mf.pan[num].label[1].setText("자리 켜짐");
 		mf.pan[num].turnOn();
 		ddaom(num);
+		try {
+			socket = clients.get(pcseat[num]);
+			out = new DataOutputStream(socket.getOutputStream());
+			out.writeUTF("턴온");
+		} catch(Exception e){
 
+		}
 	}
 
 	// 04.컴퓨터 꺼짐 from HostPcServer
