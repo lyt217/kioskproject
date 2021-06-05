@@ -225,7 +225,7 @@ public class Vcontrol {
 			System.out.println("턴온 - NUM : "+String.valueOf(num)+" | "+ipaddress);
 			out.writeUTF("턴온");
 		} catch(Exception e){
-
+			e.printStackTrace();
 		}
 	}
 
