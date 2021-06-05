@@ -193,22 +193,22 @@ public class Vcontrol {
 	// 02.새로운 자리받는 메소드
 	public boolean newSeat(int num, String name, Socket socket) {
 		boolean using = false;
-		for(int i = 0 ; i < 50 ; i++){
-			Seat tempSeat = pcseat[i];
-			if(tempSeat != null){
-				if(tempSeat.getName().equals(name)){
-					using = true;
-				}
-			}
-		}
-		if(using == false){
-			pcseat[num] = new Seat(num, name);
-			clients.put(pcseat[num], socket);
-			return true;
-		}
-		else{
-			return false;
-		}
+		// for(int i = 0 ; i < 50 ; i++){
+		// 	Seat tempSeat = pcseat[i];
+		// 	if(tempSeat != null){
+		// 		if(tempSeat.getName().equals(name)){
+		// 			using = true;
+		// 		}
+		// 	}
+		// }
+		// if(using == false){
+		pcseat[num] = new Seat(num, name);
+		clients.put(pcseat[num], socket);
+		return true;
+		// }
+		// else{
+		// 	return false;
+		// }
 	}
 
 	// 03.컴퓨터켜짐 from HostPcServer
