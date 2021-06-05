@@ -289,6 +289,7 @@ public class Vcontrol {
 			
 			int newnum = num + 1;
 			URL url = new URL("http://3.35.139.179/point.php?computer_id="+newnum+"&userId="+userId);
+			System.out.println(url.toString());
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -301,7 +302,7 @@ public class Vcontrol {
 			bufferedReader.close();
 
 			String response = stringBuffer.toString();
-			System.out.println(response);
+			System.out.println("RES : "+response);
 			
 			boolean logout = JoinMemberProcess.lastLogout(userId);
 			if(logout == false) {
