@@ -214,7 +214,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 
 
 
-		new Thread(new ClientConnector()).start();
+		// new Thread(new ClientConnector()).start();
 	}
 
 	private class JTextFieldLimit extends PlainDocument // 텍스트 필드 글자수 제한을 위한 이너
