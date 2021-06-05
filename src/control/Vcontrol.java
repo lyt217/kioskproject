@@ -222,8 +222,8 @@ public class Vcontrol {
 			ipaddress = ipaddress + String.valueOf(ipaa);
 
 			System.out.println("턴온 - NUM : "+String.valueOf(num)+" | "+ipaddress);
-			
-			socket = new Socket(InetAddress.getByName(ipaddress), 7777);
+			socket = clients.get(pcseat[num]);
+			// socket = new Socket(InetAddress.getByName(ipaddress), 7777);
 			out = new DataOutputStream(socket.getOutputStream());
 			out.writeUTF("턴온");
 		} catch(Exception e){
