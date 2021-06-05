@@ -342,6 +342,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 					String str = in.readUTF();
 					// 이용요금 처리부
 					if (str.equals("턴온")) {
+						System.out.println("턴온");
 						Computer computer = null;
 						computer = GetComputer.getComputer(internalAddress, thisStore.getStoreId());
 							
@@ -359,6 +360,9 @@ public class Login_Hud extends JFrame implements ActionListener {
 							ClientPc cl = new ClientPc(tf.getText(), String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
 						}
 						dispose();
+					}
+					else{
+						System.out.println(str);
 					}
 				}
 
