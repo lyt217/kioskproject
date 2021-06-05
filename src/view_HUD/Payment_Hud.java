@@ -72,6 +72,7 @@ public class Payment_Hud extends JFrame implements ActionListener {
     JButton findButton;
     String resultString = "";
     int krw_per_hour;
+	CommPort commPort;
     public Payment_Hud() {
     	
 
@@ -129,7 +130,7 @@ public class Payment_Hud extends JFrame implements ActionListener {
 	        }
 	        else
 	        {
-	            CommPort commPort = portIdentifier.open("BILL", 6000);
+	            commPort = portIdentifier.open("BILL", 6000);
 	            
 	            if ( commPort instanceof SerialPort )
 	            {
@@ -281,6 +282,10 @@ public class Payment_Hud extends JFrame implements ActionListener {
 			}
 			else if(result == JOptionPane.YES_OPTION) {
 				incomed = 0;
+
+				commPort.close();
+				inStream = null;
+				outStream = null;
 				dispose();
 			}
     	}
