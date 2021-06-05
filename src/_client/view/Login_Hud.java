@@ -338,6 +338,15 @@ public class Login_Hud extends JFrame implements ActionListener {
 				out = new DataOutputStream(new BufferedOutputStream(
 						socket.getOutputStream()));
 
+				List<String> abcList = Arrays.asList(internalAddress.split("."));
+				String lastIndex = abcList[3];
+
+				int pcNum = Integer.parseInt(lastIndex);
+				out.writeInt(pcNum);
+				out.writeUTF("구");
+				out.writeUTF("연결");
+				out.flush();
+
 				while (true) {
 					String str = in.readUTF();
 					// 이용요금 처리부
