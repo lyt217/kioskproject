@@ -195,8 +195,10 @@ public class Vcontrol {
 		boolean using = false;
 		for(int i = 0 ; i < 50 ; i++){
 			Seat tempSeat = pcseat[i];
-			if(tempSeat.getName().equals(name)){
-				using = true;
+			if(tempSeat != null){
+				if(tempSeat.getName().equals(name)){
+					using = true;
+				}
 			}
 		}
 		if(using == false){
