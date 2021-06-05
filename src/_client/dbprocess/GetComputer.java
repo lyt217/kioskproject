@@ -29,7 +29,7 @@ public class GetComputer {
 		}
 		try {
 			con = pool.getConnection();
-			sql = "select * from computers where internalAddress = ? and storeId = ?";
+			sql = "select * from computers where internalAddress = ? and storeId = ? and in_use = 0";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, internalAddress);
 			pstmt.setInt(2, storeId);
@@ -44,6 +44,16 @@ public class GetComputer {
 				computer.setStoreId(store_id);
 				computer.setInternalAddress(internal_address);
 				computer.setSeatNumber(seatNumber);
+			}
+
+			String sqlu = "UPDATE computers SET in_use = 1 WHERE id = ?";
+			pstmt = con.prepareStatement(sqlu);
+			pstmt.setInt(1, computer.getId());
+			if (pstmt.executeUpdate() == 1){
+
+			} 
+			else{
+				
 			}
 
 		} catch (Exception e) {
