@@ -218,11 +218,13 @@ public class Vcontrol {
 		ddaom(num);
 		try {
 			String ipaddress = "192.168.0.";
-			int ipaa = 100 + num;
+			int ipaa = 101 + num;
 			ipaddress = ipaddress + String.valueOf(ipaa);
+
+			System.out.println("턴온 - NUM : "+String.valueOf(num)+" | "+ipaddress);
+			
 			socket = new Socket(InetAddress.getByName(ipaddress), 7777);
 			out = new DataOutputStream(socket.getOutputStream());
-			System.out.println("턴온 - NUM : "+String.valueOf(num)+" | "+ipaddress);
 			out.writeUTF("턴온");
 		} catch(Exception e){
 			e.printStackTrace();
