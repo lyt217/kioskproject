@@ -217,7 +217,10 @@ public class Vcontrol {
 		mf.pan[num].turnOn();
 		ddaom(num);
 		try {
-			socket = clients.get(pcseat[num]);
+			String ipaddress = "192.168.0.";
+			int ipaa = 100 + num;
+			ipaddress = ipaddress + String.valueOf(ipaa);
+			socket = new Socket(InetAddress.getByName(ipaddress), 7777);
 			out = new DataOutputStream(socket.getOutputStream());
 			out.writeUTF("턴온");
 		} catch(Exception e){
