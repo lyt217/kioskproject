@@ -22,6 +22,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -339,7 +341,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 						socket.getOutputStream()));
 
 				List<String> abcList = Arrays.asList(internalAddress.split("."));
-				String lastIndex = abcList[3];
+				String lastIndex = abcList.get(3);
 
 				int pcNum = Integer.parseInt(lastIndex);
 				out.writeInt(pcNum);
