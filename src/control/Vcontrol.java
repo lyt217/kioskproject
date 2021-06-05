@@ -216,19 +216,19 @@ public class Vcontrol {
 		// mf.pan[num].label[1].setText("자리 켜짐");
 		mf.pan[num].turnOn();
 		ddaom(num);
-		try {
-			String ipaddress = "192.168.0.";
-			int ipaa = 101 + num;
-			ipaddress = ipaddress + String.valueOf(ipaa);
+		// try {
+		// 	String ipaddress = "192.168.0.";
+		// 	int ipaa = 101 + num;
+		// 	ipaddress = ipaddress + String.valueOf(ipaa);
 
-			System.out.println("턴온 - NUM : "+String.valueOf(num)+" | "+ipaddress);
-			socket = clients.get(pcseat[num]);
-			// socket = new Socket(InetAddress.getByName(ipaddress), 7777);
-			out = new DataOutputStream(socket.getOutputStream());
-			out.writeUTF("턴온");
-		} catch(Exception e){
-			e.printStackTrace();
-		}
+		// 	System.out.println("턴온 - NUM : "+String.valueOf(num)+" | "+ipaddress);
+		// 	socket = clients.get(pcseat[num]);
+		// 	// socket = new Socket(InetAddress.getByName(ipaddress), 7777);
+		// 	out = new DataOutputStream(socket.getOutputStream());
+		// 	out.writeUTF("턴온");
+		// } catch(Exception e){
+		// 	e.printStackTrace();
+		// }
 	}
 
 	// 04.컴퓨터 꺼짐 from HostPcServer

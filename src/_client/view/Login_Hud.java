@@ -307,7 +307,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 						JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.", "로그인 성공",
 								JOptionPane.INFORMATION_MESSAGE);
 						ClientPc.doClient=true;
-						ClientPc cl = new ClientPc("비회원", String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
+						ClientPc cl = new ClientPc(tf.getText(), String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
 					}
 					dispose();
 					
