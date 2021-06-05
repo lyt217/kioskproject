@@ -46,16 +46,6 @@ public class GetComputer {
 				computer.setSeatNumber(seatNumber);
 			}
 
-			String sqlu = "UPDATE computers SET in_use = 1 WHERE id = ?";
-			pstmt = con.prepareStatement(sqlu);
-			pstmt.setInt(1, computer.getId());
-			if (pstmt.executeUpdate() == 1){
-
-			} 
-			else{
-				
-			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
