@@ -82,8 +82,10 @@ public class HostPcServer extends Thread {
 					String s = in.readUTF();
 					switch (s) {
 					case "로그인":
-						vc.newSeat(num, name, socket);
-						vc.login(num, name);
+						boolean using = vc.newSeat(num, name, socket);
+						if(using == true){
+							vc.login(num, name);
+						}
 						break;
 					case "로그아웃":
 						vc.logout(num);
