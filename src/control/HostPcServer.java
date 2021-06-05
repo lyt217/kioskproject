@@ -85,8 +85,8 @@ public class HostPcServer extends Thread {
 						boolean using = vc.newSeat(num, "", socket);
 						break;
 					case "로그인":
-						boolean using = vc.newSeat(num, name, socket);
-						if(using == true){
+						boolean using2 = vc.newSeat(num, name, socket);
+						if(using2 == true){
 							vc.login(num, name);
 						}
 						break;
