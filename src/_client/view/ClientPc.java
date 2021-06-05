@@ -131,9 +131,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 
 		public void actionPerformed(ActionEvent arg0) {
 //			Menu menu = new Menu(out,Integer.parseInt(pc));
-			try {
-
-				System.out.println("logout");
+			try {	
 				if(out == null) {
 
 					out = new DataOutputStream(new BufferedOutputStream(
