@@ -140,10 +140,21 @@ public class ClientPc {// 클라이언트 클래스 시작
 
 				System.out.println("로그아웃 시도 : "+String.valueOf(pcNum));
 				
-				out.writeInt(pcNum);
-				out.writeUTF(id);
-				out.writeUTF("로그아웃");
-				out.flush();
+				String message = String.valueOf(pcNum)+" 번 PC 이용을 종료하시겠습니까?";
+				int result = JOptionPane.showConfirmDialog(null, message, "Confirm", JOptionPane.YES_NO_OPTION);
+				if(result == JOptionPane.CLOSED_OPTION) {
+					
+				}
+				else if(result == JOptionPane.YES_OPTION) {
+					out.writeInt(pcNum);
+					out.writeUTF(id);
+					out.writeUTF("로그아웃");
+					out.flush();
+				}
+				else {
+					
+				}
+
 				// socket.close();
 				
 //				socket.close();
