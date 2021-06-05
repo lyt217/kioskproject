@@ -130,7 +130,7 @@ public class DB_query {
 				pstmt.setString(1, id);
 			}
 			else {
-				sql = "select password, remainSecond from member where id = ? and storeName = ?";
+				sql = "select password, remainSecond from member where id = ? and storeName = ? and in_use = 0";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, id);
 				pstmt.setString(2, storeName);
@@ -161,6 +161,20 @@ public class DB_query {
 			
 			if(flag == 1 && remainSec < 300) {
 				flag = 2;
+			}
+			else if(flag == 1){
+				pstmt.close();
+				
+				sql = "update member set in_use = 1 where id = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, id);
+
+				if (pstmt.executeUpdate() == 1){
+
+				} 
+				else{
+					
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
