@@ -341,7 +341,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 						socket.getOutputStream()));
 
 					// System.out.println(internalAddress);
-				String[] subs = internalAddress.split(".");
+				String[] subs = internalAddress.split("\\.");
 				if(subs.length == 4){
 					String lastIndex = subs[3];
 
