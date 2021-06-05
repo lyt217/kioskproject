@@ -262,7 +262,18 @@ public class ClientPc {// 클라이언트 클래스 시작
 
 		}
 
-	}// 클라이언트 커넥터종료
+	}
+//	 public static final String getActiveWindowText() {
+//        long /*int*/ handle = OS.GetForegroundWindow();
+//        int length = OS.GetWindowTextLength(handle);
+//        if(length == 0) return "";
+//        /* Use the character encoding for the default locale */
+//        TCHAR buffer = new TCHAR(0, length + 1);
+//        OS.GetWindowText(handle, buffer, length + 1);
+//        return buffer.toString(0, length);
+//    }
+	 
+	 // 클라이언트 커넥터종료
     private WindowAdapter getWindowAdapter() {
         return new WindowAdapter() {
             @Override

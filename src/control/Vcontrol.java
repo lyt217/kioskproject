@@ -37,6 +37,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import java.net.DatagramSocket;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
@@ -258,6 +259,22 @@ public class Vcontrol {
 			this.payOff(pcseat[num]);
 			// 클라이언트에서 없애기
 			clients.remove(pcseat[num]);
+			
+			int newnum = num + 1;
+			URL url = new URL("http://3.35.139.179/point.php?computer_id="+newnum+"&userId="+userId);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			StringBuffer stringBuffer = new StringBuffer();
+			String inputLine;
+
+			while ((inputLine = bufferedReader.readLine()) != null)  {
+			     stringBuffer.append(inputLine);
+			}
+			bufferedReader.close();
+
+			String response = stringBuffer.toString();
+			System.out.println(response);
 			
 			boolean logout = JoinMemberProcess.lastLogout(userId);
 			if(logout == false) {
