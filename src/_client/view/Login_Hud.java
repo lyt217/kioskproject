@@ -10,7 +10,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.beans.Visibility;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -51,6 +55,11 @@ public class Login_Hud extends JFrame implements ActionListener {
 	JPasswordField tf2;
 	Store thisStore;
 	String internalAddress = "";
+	private Socket socket;
+	private DataOutputStream out;
+	private DataInputStream in;
+	private ClientChat chat;
+	protected static boolean doClient=true;
 	// 메인
 	public static void main(String[] args) {
 		new Login_Hud();
@@ -200,6 +209,10 @@ public class Login_Hud extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+
+
+		new Thread(new ClientConnector()).start();
 	}
 
 	private class JTextFieldLimit extends PlainDocument // 텍스트 필드 글자수 제한을 위한 이너
@@ -292,7 +305,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 						JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.", "로그인 성공",
 								JOptionPane.INFORMATION_MESSAGE);
 						ClientPc.doClient=true;
-						ClientPc cl = new ClientPc(tf.getText(), String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
+						ClientPc cl = new ClientPc("비회원", String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
 					}
 					dispose();
 					
@@ -312,19 +325,89 @@ public class Login_Hud extends JFrame implements ActionListener {
 		}
 	}// 액션 끝
 
-	private WindowAdapter getWindowAdapter() {
+	private class ClientConnector implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				String serverIp = "192.168.0.201";// "172.168.0.80";
+				socket = new Socket(InetAddress.getByName(serverIp), 7777);
+				System.out.println("연결성공");
+				in = new DataInputStream(new BufferedInputStream(
+						socket.getInputStream()));
+				out = new DataOutputStream(new BufferedOutputStream(
+						socket.getOutputStream()));
+
+				while (true) {
+					String str = in.readUTF();
+					// 이용요금 처리부
+					if (str.equals("턴온")) {
+						Computer computer = null;
+						computer = GetComputer.getComputer(internalAddress, thisStore.getStoreId());
+							
+						if(computer == null || computer.getId() == 0) {
+							System.out.println("NO PC for IP : "+internalAddress);
+							JOptionPane.showMessageDialog(null, "사용이 허가되지 않은 PC입니다.", "관리자에게 문의하세요.",
+							JOptionPane.ERROR_MESSAGE);
+						}
+						else {
+							// System.out.println(String.valueOf(computer.getId())+" : "+computer.getInternalAddress()+" ("+String.valueOf(computer.getSeatNumber())+" 번 컴퓨터)");
+							// //로그인액션
+							// JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.", "로그인 성공",
+							// 		JOptionPane.INFORMATION_MESSAGE);
+							ClientPc.doClient = true;
+							ClientPc cl = new ClientPc(tf.getText(), String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
+						}
+						dispose();
+					}
+				}
+
+			} catch (IOException e) {// 서버와 연결이 끊어질시 창이 변함
+
+				if (chat != null) {
+					chat.closeFrame();
+				}
+				doClient=false;
+				dispose();
+				ClientLogin cl = new ClientLogin();
+
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+		}
+
+	}// 클라이언트 커넥터종료
+    private WindowAdapter getWindowAdapter() {
         return new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {//overrode to show message
                 super.windowClosing(we);
+
+                // JOptionPane.showMessageDialog(clFrame, "Cant Exit");
             }
 
             @Override
             public void windowIconified(WindowEvent we) {
             	setState(JFrame.NORMAL);
+            	
 //                JOptionPane.showMessageDialog(clFrame, "Cant Minimize");
             }
         };
     }
+
 
 }
