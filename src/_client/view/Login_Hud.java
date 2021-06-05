@@ -340,42 +340,47 @@ public class Login_Hud extends JFrame implements ActionListener {
 				out = new DataOutputStream(new BufferedOutputStream(
 						socket.getOutputStream()));
 
-					System.out.println(internalAddress);
+					// System.out.println(internalAddress);
 				String[] subs = internalAddress.split(".");
-				String lastIndex = subs[3];
+				if(subs.length == 4){
+					String lastIndex = subs[3];
 
-				int pcNum = Integer.parseInt(lastIndex) - 101;
-				out.writeInt(pcNum);
-				out.writeUTF("구");
-				out.writeUTF("연결");
-				out.flush();
+					int pcNum = Integer.parseInt(lastIndex) - 101;
+					out.writeInt(pcNum);
+					out.writeUTF("구");
+					out.writeUTF("연결");
+					out.flush();
 
-				while (true) {
-					String str = in.readUTF();
-					// 이용요금 처리부
-					if (str.equals("턴온")) {
-						System.out.println("턴온");
-						Computer computer = null;
-						computer = GetComputer.getComputer(internalAddress, thisStore.getStoreId());
-							
-						if(computer == null || computer.getId() == 0) {
-							System.out.println("NO PC for IP : "+internalAddress);
-							JOptionPane.showMessageDialog(null, "사용이 허가되지 않은 PC입니다.", "관리자에게 문의하세요.",
-							JOptionPane.ERROR_MESSAGE);
+					while (true) {
+						String str = in.readUTF();
+						// 이용요금 처리부
+						if (str.equals("턴온")) {
+							System.out.println("턴온");
+							Computer computer = null;
+							computer = GetComputer.getComputer(internalAddress, thisStore.getStoreId());
+								
+							if(computer == null || computer.getId() == 0) {
+								System.out.println("NO PC for IP : "+internalAddress);
+								JOptionPane.showMessageDialog(null, "사용이 허가되지 않은 PC입니다.", "관리자에게 문의하세요.",
+								JOptionPane.ERROR_MESSAGE);
+							}
+							else {
+								// System.out.println(String.valueOf(computer.getId())+" : "+computer.getInternalAddress()+" ("+String.valueOf(computer.getSeatNumber())+" 번 컴퓨터)");
+								// //로그인액션
+								// JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.", "로그인 성공",
+								// 		JOptionPane.INFORMATION_MESSAGE);
+								ClientPc.doClient = true;
+								ClientPc cl = new ClientPc(tf.getText(), String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
+							}
+							dispose();
 						}
-						else {
-							// System.out.println(String.valueOf(computer.getId())+" : "+computer.getInternalAddress()+" ("+String.valueOf(computer.getSeatNumber())+" 번 컴퓨터)");
-							// //로그인액션
-							// JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.", "로그인 성공",
-							// 		JOptionPane.INFORMATION_MESSAGE);
-							ClientPc.doClient = true;
-							ClientPc cl = new ClientPc(tf.getText(), String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
+						else{
+							System.out.println(str);
 						}
-						dispose();
 					}
-					else{
-						System.out.println(str);
-					}
+				}
+				else{
+					System.out.println(internalAddress);
 				}
 
 			} catch (IOException e) {// 서버와 연결이 끊어질시 창이 변함
