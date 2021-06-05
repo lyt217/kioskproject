@@ -133,11 +133,13 @@ public class ClientPc {// 클라이언트 클래스 시작
 //			Menu menu = new Menu(out,Integer.parseInt(pc));
 			try {	
 				if(out == null) {
-
 					out = new DataOutputStream(new BufferedOutputStream(
 							socket.getOutputStream()));
 				}
 				int pcNum = Integer.parseInt(pc);
+
+				System.out.println("로그아웃 시도 : "+String.valueOf(pcNum));
+				
 				out.writeInt(pcNum);
 				out.writeUTF(id);
 				out.writeUTF("로그아웃");
