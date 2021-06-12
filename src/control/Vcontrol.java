@@ -288,14 +288,19 @@ public class Vcontrol {
 
 		try {
 			
+			socket = clients.get(pcseat[num]);
+			out = new DataOutputStream(socket.getOutputStream());
+			out.writeUTF("로그아웃");
 			// 계산메소드
 			if(pcseat[num] != null){
 				this.payOff(pcseat[num]);
 				// 클라이언트에서 없애기
-				clients.remove(pcseat[num]);
+				clients.remove(pcseat[num]);	
+			}
+
+			int newnum = num + 1;
 				
-				int newnum = num + 1;
-				URL url = new URL("http://3.35.139.179/point.php?computer_id="+newnum+"&userId="+userId);
+				URL url = new URL("http://3.35.139.179/point.php?storeId="+String.valueOf(thisStore.getStoreId())+"&seatNumber="+String.valueOf(newnum)+"&userId="+userId);
 				System.out.println(url.toString());
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
@@ -315,11 +320,6 @@ public class Vcontrol {
 				if(logout == false) {
 					System.out.println("db 로그아웃 처리 실패 ");
 				}
-				
-				socket = clients.get(pcseat[num]);
-				out = new DataOutputStream(socket.getOutputStream());
-				out.writeUTF("로그아웃");
-			}
 		} catch (IOException e) {
 			System.out.println("브이컨트롤 : 로그아웃 메시지 보내는 데 실패함");
 		}
