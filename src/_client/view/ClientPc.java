@@ -133,31 +133,28 @@ public class ClientPc {// 클라이언트 클래스 시작
 //			Menu menu = new Menu(out,Integer.parseInt(pc));
 			try {	
 				if(out == null) {
-					out = new DataOutputStream(new BufferedOutputStream(
-							socket.getOutputStream()));
+					out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 				}
 				int pcNum = Integer.parseInt(pc);
 
 				System.out.println("로그아웃 시도 : "+String.valueOf(pcNum));
 				
-				String message = String.valueOf(pcNum)+" 번 PC 이용을 종료하시겠습니까?";
+				String message = String.valueOf(pcNum+1)+" 번 PC 이용을 종료하시겠습니까?";
 				int result = JOptionPane.showConfirmDialog(null, message, "Confirm", JOptionPane.YES_NO_OPTION);
 				if(result == JOptionPane.CLOSED_OPTION) {
 					
 				}
 				else if(result == JOptionPane.YES_OPTION) {
+					System.out.println(id + "socket : "+socket.toString());
+					
+					out.writeUTF("로그아웃");
 					out.writeInt(pcNum);
 					out.writeUTF(id);
-					out.writeUTF("로그아웃");
 					out.flush();
 				}
 				else {
 					
 				}
-
-				// socket.close();
-				
-//				socket.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -192,6 +189,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 
 				while (true) {
 					String str = in.readUTF();
+					System.out.println("IN : "+str);
 					// 이용요금 처리부
 					if (str.equals("요금정보")) {
 						Integer money = in.readInt();
@@ -211,12 +209,15 @@ public class ClientPc {// 클라이언트 클래스 시작
 					}
 					// 로그아웃 처리부
 					if (str.equals("로그아웃")) {
+						System.out.println("Lets Logout");
 						Robot r = new Robot();
 						r.setAutoDelay(250);
 						r.keyPress(KeyEvent.VK_HOME);
 						
 						// doClient = false;
+						timerRunnerble.setStop(true);
 						executor.shutdown();
+						
 						
 						try{
 							TimeUnit.SECONDS.sleep(1);
@@ -301,8 +302,8 @@ public class ClientPc {// 클라이언트 클래스 시작
             }
         };
     }
-    
-    Runnable timerRunnerble = new Runnable() {
+
+    MyThread timerRunnerble = new MyThread() {
 		public void run() {
 			try {
 				out.writeUTF("요금확인");
@@ -315,5 +316,26 @@ public class ClientPc {// 클라이언트 클래스 시작
 		   System.out.println("Hello World!"); 
 		}
     };
+
+	class MyThread implements Runnable{
+    
+		private Boolean stop = false;
+		
+		public void run(){
+			
+			while(!stop){
+				
+				//some business logic
+			}
+		}
+		public Boolean getStop() {
+			return stop;
+		}
+	
+		public void setStop(Boolean stop) {
+			this.stop = stop;
+		}       
+	}
+	
 	
 }// 클라이언트 클래스 종료

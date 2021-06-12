@@ -14,6 +14,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -997,11 +1001,48 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 		} else if (e.getSource() == bt[7]) {
 //			tf4.setText("");
 			System.out.println("올온시트!");
-			Thread seatThread = new MyThread(2);
-			seatThread.start();
+			try {
+				int addtime = Integer.parseInt(tf4.getText().toString());
+				URL url = new URL("http://3.35.139.179/addtime.php?store="+String.valueOf(vcm.getStore().getStoreId())+"&time="+String.valueOf(addtime * 60 * 60));
+				System.out.println(url.toString());
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("GET");
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				StringBuffer stringBuffer = new StringBuffer();
+				String inputLine;
+	
+				while ((inputLine = bufferedReader.readLine()) != null)  {
+					stringBuffer.append(inputLine);
+				}
+				bufferedReader.close();
+			} catch(Exception e3) {
+				e3.printStackTrace();
+			}
+			// Thread seatThread = new MyThread(2);
+			// seatThread.start();
 		} else if (e.getSource() == bt[8]) {
-			Thread seatThread = new MyThread(3);
-			seatThread.start();
+			try {
+				URL url = new URL("http://3.35.139.179/minus.php?store="+String.valueOf(vcm.getStore().getStoreId()));
+				System.out.println(url.toString());
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("GET");
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				StringBuffer stringBuffer = new StringBuffer();
+				String inputLine;
+	
+				while ((inputLine = bufferedReader.readLine()) != null)  {
+					stringBuffer.append(inputLine);
+				}
+				bufferedReader.close();
+			} catch(Exception e3) {
+				e3.printStackTrace();
+			} finally {
+				vcm.allOff();
+			}
+//			Thread seatThread = new MyThread(3);
+//			
+//			seatThread.start();
+			
 		} else if (e.getSource() == turnOffSeat) {
 			for (int i = 0; i < 50; i++) {
 				if (pan[i].isChecked == true) {

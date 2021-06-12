@@ -28,8 +28,9 @@ public class GetComputer {
 			e.printStackTrace();
 		}
 		try {
+			System.out.println("|| GET COMPUTER || "+internalAddress+" (STORE : "+String.valueOf(storeId));
 			con = pool.getConnection();
-			sql = "select * from computers where internalAddress = ? and storeId = ? and in_use = 0";
+			sql = "select * from computers where internalAddress = ? and storeId = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, internalAddress);
 			pstmt.setInt(2, storeId);

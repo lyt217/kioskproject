@@ -88,6 +88,11 @@ public class HostPcServer extends Thread {
 						}
 						break;
 					case "로그아웃":
+
+						num = in.readInt();
+						name = in.readUTF();
+						
+						System.out.println("로그아웃 요청 FROM "+String.valueOf(num));
 						vc.logout(num);
 						break; // 화면변환 메소드
 					case "컴퓨터끔":

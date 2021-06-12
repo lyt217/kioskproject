@@ -92,6 +92,7 @@ public class Vcontrol {
 	public static void main(String[] args) {
 		InetAddress ip = null;
 		try{
+			System.out.println(System.getProperty("java.library.path"));
 			
 //				final DatagramSocket socket = new DatagramSocket()){
 			
@@ -263,6 +264,14 @@ public class Vcontrol {
 
 	}
 
+	public void allOff() {
+		for(int i = 0 ; i < 50 ; i++) {
+			Seat seat = pcseat[i];
+			if(seat != null) {
+				logout(i);
+			}
+		}
+	}
 	// 06.로그아웃처리 from HostPcServer
 	public void logout(int num) {
 		String userId = pcseat[num].getUserame();
@@ -283,30 +292,32 @@ public class Vcontrol {
 			out = new DataOutputStream(socket.getOutputStream());
 			out.writeUTF("로그아웃");
 			// 계산메소드
-			this.payOff(pcseat[num]);
-			// 클라이언트에서 없애기
-			clients.remove(pcseat[num]);
-			
-			int newnum = num + 1;
-			URL url = new URL("http://3.35.139.179/point.php?computer_id="+newnum+"&userId="+userId);
-			System.out.println(url.toString());
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuffer stringBuffer = new StringBuffer();
-			String inputLine;
+			if(pcseat[num] != null){
+				this.payOff(pcseat[num]);
+				// 클라이언트에서 없애기
+				clients.remove(pcseat[num]);
+				
+				int newnum = num + 1;
+				URL url = new URL("http://3.35.139.179/point.php?computer_id="+newnum+"&userId="+userId);
+				System.out.println(url.toString());
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("GET");
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				StringBuffer stringBuffer = new StringBuffer();
+				String inputLine;
 
-			while ((inputLine = bufferedReader.readLine()) != null)  {
-			     stringBuffer.append(inputLine);
-			}
-			bufferedReader.close();
+				while ((inputLine = bufferedReader.readLine()) != null)  {
+					stringBuffer.append(inputLine);
+				}
+				bufferedReader.close();
 
-			String response = stringBuffer.toString();
-			System.out.println("RES : "+response);
-			
-			boolean logout = JoinMemberProcess.lastLogout(userId);
-			if(logout == false) {
-				System.out.println("db 로그아웃 처리 실패 ");
+				String response = stringBuffer.toString();
+				System.out.println("RES : "+response);
+				
+				boolean logout = JoinMemberProcess.lastLogout(userId);
+				if(logout == false) {
+					System.out.println("db 로그아웃 처리 실패 ");
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("브이컨트롤 : 로그아웃 메시지 보내는 데 실패함");

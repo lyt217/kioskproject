@@ -18,12 +18,17 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -214,7 +219,59 @@ public class Login_Hud extends JFrame implements ActionListener {
 
 
 
+		final Timer t = new Timer();
+		t.schedule(new TimerTask() {
+		    @SuppressWarnings("null")
+			@Override
+		    public void run() {
+		    	URL url;
+				try {
+					url = new URL("http://3.35.139.179/checktime.php?store="+String.valueOf(thisStore.getStoreId()));
+					System.out.println(url.toString());
+					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+					connection.setRequestMethod("GET");
+					BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+					StringBuffer stringBuffer = new StringBuffer();
+					String inputLine;
+
+					while ((inputLine = bufferedReader.readLine()) != null)  {
+						stringBuffer.append(inputLine);
+					}
+					bufferedReader.close();
+					
+					if(!inputLine.isEmpty()) {
+						int remain = Integer.parseInt(inputLine);
+						if(remain > 0) {
+	
+							t.cancel();
+							
+							
+							Computer computer = GetComputer.getComputer(internalAddress, thisStore.getStoreId());
+							String userName = "MANAGER_"+String.valueOf(thisStore.getStoreId())+"_"+String.valueOf(computer.getSeatNumber());
+							
+							ClientPc.doClient=true;
+							ClientPc cl = new ClientPc(userName, String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
+							
+							
+						}
+					}
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ProtocolException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		}, 0, 5000);
 		// new Thread(new ClientConnector()).start();
+	}
+	public void checkTime() {
+		
+	
 	}
 
 	private class JTextFieldLimit extends PlainDocument // 텍스트 필드 글자수 제한을 위한 이너
@@ -289,7 +346,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 			} else {
 				// 로그인 쿼리
 				Computer computer = null;
-				int existId = DB_query.loginMember(tf.getText(), String.valueOf(tf2.getPassword()), thisStore.getStoreName());
+				int existId = DB_query.loginMember(tf.getText(), String.valueOf(tf2.getPassword()), "REAL_BM");
 	
 				if (existId == 1) // 로그인 가능 판별
 					
