@@ -69,7 +69,7 @@ public class Seat_pan extends Seat_panAb implements ActionListener,
 			// else
 			label[a] = new JLabel("");
 
-			label[a].setBounds(20, y, 80, 15);
+			label[a].setBounds(20, y, 200, 30);
 			y += 16;
 			label[a].setForeground(new Color(36, 205, 198));
 			label[a].setFont(new Font("배달의민족 한나", 1, 24));
