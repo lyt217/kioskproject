@@ -247,10 +247,14 @@ public class Payment_Hud extends JFrame implements ActionListener {
 	    			else if(result == JOptionPane.YES_OPTION) {
 	    				System.out.println(message);
 	    				if(DepositMemberProcess.insertMoney(username, incomed, vcm.getStore().getStoreId()) == 1){
-	    					JOptionPane.showMessageDialog(null, "충전이 완료되었습니다.", "",
-	    							JOptionPane.INFORMATION_MESSAGE);
-	    					
-	    					dispose();
+	    					JOptionPane.showMessageDialog(null, "충전이 완료되었습니다.", "", JOptionPane.INFORMATION_MESSAGE);
+					
+							if(commPort != null){
+								commPort.close();
+								inStream = null;
+								outStream = null;
+								dispose();
+							}
 	    				}
 	    			}
 	    			else {
@@ -283,10 +287,12 @@ public class Payment_Hud extends JFrame implements ActionListener {
 			else if(result == JOptionPane.YES_OPTION) {
 				incomed = 0;
 
-				commPort.close();
-				inStream = null;
-				outStream = null;
-				dispose();
+				if(commPort != null){
+					commPort.close();
+					inStream = null;
+					outStream = null;
+					dispose();
+				}
 			}
     	}
     	else if(e.getSource() == btnc || e.getSource() == btnc2) {

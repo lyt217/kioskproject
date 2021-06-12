@@ -1,7 +1,8 @@
-/model/
-/control/
-/view_HUD/
+/_client/
 /assets/
 /backup/
-/_client/
+/control/
+/model/
+/test/
 /view/
+/view_HUD/

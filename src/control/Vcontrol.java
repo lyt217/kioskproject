@@ -288,9 +288,6 @@ public class Vcontrol {
 
 		try {
 			
-			socket = clients.get(pcseat[num]);
-			out = new DataOutputStream(socket.getOutputStream());
-			out.writeUTF("로그아웃");
 			// 계산메소드
 			if(pcseat[num] != null){
 				this.payOff(pcseat[num]);
@@ -318,9 +315,14 @@ public class Vcontrol {
 				if(logout == false) {
 					System.out.println("db 로그아웃 처리 실패 ");
 				}
+				
 			}
 		} catch (IOException e) {
 			System.out.println("브이컨트롤 : 로그아웃 메시지 보내는 데 실패함");
+		} finally{
+			socket = clients.get(pcseat[num]);
+			out = new DataOutputStream(socket.getOutputStream());
+			out.writeUTF("로그아웃");
 		}
 
 	}
@@ -376,7 +378,7 @@ public class Vcontrol {
 				out.writeUTF(gametime);
 
 				int num = pcseat.getNum_seat();
-				mf.pan[num].label[0].setText("남은시간 : "+gametime);
+				mf.pan[num].label[0].setText(gametime);
 
 			}
 		} catch (IOException e) {

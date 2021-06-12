@@ -72,7 +72,7 @@ public class Seat_pan extends Seat_panAb implements ActionListener,
 			label[a].setBounds(20, y, 80, 15);
 			y += 16;
 			label[a].setForeground(new Color(36, 205, 198));
-			label[a].setFont(new Font("배달의민족 한나", 1, 12));
+			label[a].setFont(new Font("배달의민족 한나", 1, 24));
 			panel2.add(label[a]);
 		}
 		panel2.setOpaque(false);
