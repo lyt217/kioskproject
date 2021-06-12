@@ -316,13 +316,12 @@ public class Vcontrol {
 					System.out.println("db 로그아웃 처리 실패 ");
 				}
 				
+				socket = clients.get(pcseat[num]);
+				out = new DataOutputStream(socket.getOutputStream());
+				out.writeUTF("로그아웃");
 			}
 		} catch (IOException e) {
 			System.out.println("브이컨트롤 : 로그아웃 메시지 보내는 데 실패함");
-		} finally{
-			socket = clients.get(pcseat[num]);
-			out = new DataOutputStream(socket.getOutputStream());
-			out.writeUTF("로그아웃");
 		}
 
 	}
