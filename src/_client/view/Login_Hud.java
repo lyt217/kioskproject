@@ -235,7 +235,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 		    public void run() {
 		    	URL url;
 				try {
-					url = new URL("http://3.35.139.179/checktime.php?store="+String.valueOf(thisStore.getStoreId()));
+					url = new URL("http://52.78.238.247/checktime.php?store="+String.valueOf(thisStore.getStoreId()));
 					System.out.println(url.toString());
 					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 					connection.setRequestMethod("GET");
@@ -360,7 +360,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 			} else {
 				// 로그인 쿼리
 				Computer computer = null;
-				int existId = DB_query.loginMember(tf.getText(), String.valueOf(tf2.getPassword()), "REAL_BM");
+				int existId = DB_query.loginMember(tf.getText(), String.valueOf(tf2.getPassword()), "SINDAEBANG");
 	
 				if (existId == 1) // 로그인 가능 판별
 					

@@ -300,7 +300,7 @@ public class Vcontrol {
 
 			int newnum = num + 1;
 				
-				URL url = new URL("http://3.35.139.179/point.php?storeId="+String.valueOf(thisStore.getStoreId())+"&seatNumber="+String.valueOf(newnum)+"&userId="+userId);
+				URL url = new URL("http://52.78.238.247/point.php?storeId="+String.valueOf(thisStore.getStoreId())+"&seatNumber="+String.valueOf(newnum)+"&userId="+userId);
 				System.out.println(url.toString());
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");

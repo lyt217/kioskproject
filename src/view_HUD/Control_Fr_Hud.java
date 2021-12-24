@@ -1003,7 +1003,7 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 			System.out.println("올온시트!");
 			try {
 				int addtime = Integer.parseInt(tf4.getText().toString());
-				URL url = new URL("http://3.35.139.179/addtime.php?store="+String.valueOf(vcm.getStore().getStoreId())+"&time="+String.valueOf(addtime * 60 * 60));
+				URL url = new URL("http://52.78.238.247/addtime.php?store="+String.valueOf(vcm.getStore().getStoreId())+"&time="+String.valueOf(addtime * 60 * 60));
 				System.out.println(url.toString());
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
@@ -1022,7 +1022,7 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 			// seatThread.start();
 		} else if (e.getSource() == bt[8]) {
 			try {
-				URL url = new URL("http://3.35.139.179/minus.php?store="+String.valueOf(vcm.getStore().getStoreId()));
+				URL url = new URL("http://52.78.238.247/minus.php?store="+String.valueOf(vcm.getStore().getStoreId()));
 				System.out.println(url.toString());
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
