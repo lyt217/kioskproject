@@ -30,11 +30,15 @@ public class ClientPc {// 클라이언트 클래스 시작
 	private DataInputStream in;
 	private ClientChat chat;
 	private Menu menu;
+
+	Robot robot;
+	
 	protected static boolean doClient=true;
 	ScheduledExecutorService executor;
 
 	ClientPc(String id, String pc, String kioskIp) {// 클라이언트 생성자시작
 
+		
 		this.id = id;
 		this.pc = pc;
 		String originPc = String.valueOf(Integer.parseInt(pc) + 1);
@@ -105,8 +109,6 @@ public class ClientPc {// 클라이언트 클래스 시작
 		// 소켓 쓰레드시작
 		new Thread(new ClientConnector()).start();
 
-		executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(timerRunnerble, 0, 10, TimeUnit.SECONDS);
 		
 
 	}// 클라이언트 생성자종료
@@ -147,10 +149,30 @@ public class ClientPc {// 클라이언트 클래스 시작
 				else if(result == JOptionPane.YES_OPTION) {
 					System.out.println(id + "socket : "+socket.toString());
 					
-					out.writeUTF("로그아웃");
-					out.writeInt(pcNum);
-					out.writeUTF(id);
-					out.flush();
+					try {
+						for(int i = 0 ; i < 6 ; i++) {
+				            robot = new Robot();
+				            robot.setAutoDelay(250);
+				            robot.keyPress(KeyEvent.VK_ALT);
+				            
+				            for(int j = 0 ; j < i ; j++) {
+					            robot.keyPress(KeyEvent.VK_TAB);
+					            robot.setAutoDelay(50);
+					            robot.keyRelease(KeyEvent.VK_TAB);
+				            }
+				            robot.keyRelease(KeyEvent.VK_ALT);
+				            
+				            robot.keyPress(KeyEvent.VK_HOME);
+				            robot.keyRelease(KeyEvent.VK_HOME);
+						}
+			        } catch (AWTException ex) {
+			            ex.printStackTrace();
+			        } finally {
+						out.writeUTF("로그아웃");
+						out.writeInt(pcNum);
+						out.writeUTF(id);
+						out.flush();
+			        }
 				}
 				else {
 					
@@ -187,6 +209,11 @@ public class ClientPc {// 클라이언트 클래스 시작
 				out.writeUTF("로그인");
 				out.flush();
 
+
+
+				executor = Executors.newScheduledThreadPool(1);
+				executor.scheduleAtFixedRate(timerRunnerble, 0, 10, TimeUnit.SECONDS);
+				
 				while (true) {
 					String str = in.readUTF();
 					System.out.println("IN : "+str);
@@ -256,6 +283,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
+
 				if (in != null) {
 					try {
 						in.close();
@@ -313,7 +341,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		   System.out.println("Hello World!"); 
+		  	System.out.println("Hello World!"); 
 		}
     };
 

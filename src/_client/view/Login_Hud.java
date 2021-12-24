@@ -76,7 +76,9 @@ public class Login_Hud extends JFrame implements ActionListener {
 	public Login_Hud() {
 		// 프레임 기본 설정
 		setTitle("회원 로그인");
-		setSize(1440, 2560);
+		setSize(1080, 1920);
+//		setSize(1440, 2560);
+		
 		setUndecorated(true);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationByPlatform( true );
@@ -85,14 +87,18 @@ public class Login_Hud extends JFrame implements ActionListener {
 		setBackground(Color.black);
 		setLayout(null);
 		
-		
+
 		// 중앙사이즈조절
-		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1440) / 2;
-		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 2560 ) / 2;
+		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1080) / 2;
+		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 1920 ) / 2;
+		// 중앙사이즈조절
+//		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1440) / 2;
+//		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 2560 ) / 2;
 		setLocation(width, height);
 		// 이미지 받아오기
 		try {
 			img = ImageIO.read(new File("img/member_login2.png"));
+//			img = ImageIO.read(new File("img/member_login4.png"));
 
 		} catch (IOException e) {
 			System.out.println("이미지 불러오기 실패!");
@@ -101,18 +107,21 @@ public class Login_Hud extends JFrame implements ActionListener {
 
 		// 가장 큰 JLayer패널= 레이어를 순서대로 올려줌
 		JLayeredPane lpane = new JLayeredPane();
-		lpane.setBounds(0, 0, 1440, 2560);
+		lpane.setBounds(0, 0, 1080, 1920);
+//		lpane.setBounds(0, 0, 1440, 2560);
 		lpane.setLayout(null);
 
 		// 첫번째 panel = 텍스트필드 tf, tf2 들어감.
 		MyPanel panel = new MyPanel();
+		panel.setBounds(0, 0, 1080, 1920);
 		panel.setBounds(0, 0, 1440, 2560);
 		panel.setLayout(null);
 
 		// 두번째 패널 panel2 = 버튼들어감 , 755 , 689
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(null);
-		panel2.setBounds(0, 0, 1440, 2560);
+		panel2.setBounds(0, 0, 1080, 1920);
+//		panel2.setBounds(0, 0, 1440, 2560);
 		panel2.setBackground(Color.black);
 		panel2.setOpaque(false);
 
@@ -123,8 +132,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 		
 		tf = new JTextField(15);
 		tf.setOpaque(false);
-		tf.setBounds(480, 1363, 280, 40);
-//		tf.setBackground(Color.white);
+		tf.setBounds(477, 1350, 280, 40);
+//		tf.setBounds(650, 1820, 280, 40);
 		tf.setForeground(Color.black);
 		tf.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,5,5,5));
 		panel2.add(tf);
@@ -137,8 +146,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 		// 두번째 텍스트 731, 529  -> 891, 619
 		tf2 = new JPasswordField(15);
 		tf2.setOpaque(false);
-		tf2.setBounds(480, 1450, 280, 40);
-//		tf2.setBounds(100, 1900, 280, 30);
+		tf2.setBounds(477, 1445, 280, 40);
+//		tf2.setBounds(650, 1940, 280, 40);
 //		tf2.setBackground(Color.white);
 		tf2.setForeground(Color.black);
 		tf2.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,5,5,5));
@@ -154,8 +163,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 //		bt.setContentAreaFilled(false);
 		bt.setOpaque(false);
 //		bt.setBackground(new Color(0x3EAF0E));
-		bt.setBounds(566, 1526, 170, 60);
-//		bt.setBounds(100, 2000, 104, 48);
+		bt.setBounds(566, 1510, 170, 60);
+//		bt.setBounds(750, 2030, 170, 60);
 		bt.addActionListener(this);
 //		bt.setForeground(Color.white);
 		bt.setBorderPainted( false );
@@ -173,8 +182,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 //		btj.setContentAreaFilled(false);
 		btj.setOpaque(false);
 //		btj.setBackground(new Color(0xFEE500));
-		btj.setBounds(300, 1526, 200, 60);
-//		btj.setBounds(100, 2000, 104, 48);
+		btj.setBounds(300, 1510, 200, 60);
+//		btj.setBounds(400, 2030, 200, 60);
 		btj.addActionListener(this);
 //		btj.setForeground(Color.black);
 		btj.setBorderPainted( false );
@@ -189,7 +198,7 @@ public class Login_Hud extends JFrame implements ActionListener {
 		getContentPane().add(lpane);
 		
 		try{
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(3);
 		} catch(Exception e){
 
 		}
@@ -239,20 +248,25 @@ public class Login_Hud extends JFrame implements ActionListener {
 					}
 					bufferedReader.close();
 					
-					if(!inputLine.isEmpty()) {
-						int remain = Integer.parseInt(inputLine);
-						if(remain > 0) {
-	
-							t.cancel();
-							
-							
-							Computer computer = GetComputer.getComputer(internalAddress, thisStore.getStoreId());
-							String userName = "MANAGER_"+String.valueOf(thisStore.getStoreId())+"_"+String.valueOf(computer.getSeatNumber());
-							
-							ClientPc.doClient=true;
-							ClientPc cl = new ClientPc(userName, String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
-							
-							
+					if(inputLine == null) {
+						
+					}
+					else {						
+						if(!inputLine.isEmpty()) {
+							int remain = Integer.parseInt(inputLine);
+							if(remain > 0) {
+		
+								t.cancel();
+								
+								
+								Computer computer = GetComputer.getComputer(internalAddress, thisStore.getStoreId());
+								String userName = "MANAGER_"+String.valueOf(thisStore.getStoreId())+"_"+String.valueOf(computer.getSeatNumber());
+								
+								ClientPc.doClient=true;
+								ClientPc cl = new ClientPc(userName, String.valueOf((computer.getSeatNumber() - 1)), thisStore.getInternalAddress());
+								
+								
+							}
 						}
 					}
 				} catch (MalformedURLException e) {

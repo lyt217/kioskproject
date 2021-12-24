@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -62,11 +64,12 @@ public class Payment_Hud extends JFrame implements ActionListener {
     JButton btn10000, btn20000, btn30000, btn50000, btn100000, btnc, btnc2, btn_confirm, btn_cancel;
     JPanel panel, panel2, panel3;
     JLabel label, label2, label3, hourTF;
-    JTextField label4;
+    public JTextField label4;
     OutputStream outStream;
     InputStream inStream;
     SerialPort serialPort;
     JLayeredPane lpane;
+    Keyboard keyboard = null;
     int incomed = 0;
     int goal = 0;
     JButton findButton;
@@ -196,6 +199,37 @@ public class Payment_Hud extends JFrame implements ActionListener {
 		label4.setOpaque(false);
 		label4.setForeground(Color.white);
 		label4.setBackground(new Color(60, 60, 60));
+		
+		label4.addFocusListener(new FocusListener() {
+		      public void focusGained(FocusEvent e) {
+//		          displayMessage("Focus gained", e);
+		          if(keyboard == null) {
+		        	  keyboard = new Keyboard();
+			          keyboard.setPH(Payment_Hud.this);
+			          keyboard.launch();
+		          }
+		          else {
+		        	  keyboard.toFront();
+		          }
+		        }
+
+		        public void focusLost(FocusEvent e) {
+//		        	keyboard.dispose();
+//		        	keyboard = null;
+//		        	displayMessage("Focus lost", e);
+		        }
+
+		        void displayMessage(String prefix, FocusEvent e) {
+//		          System.out.println(prefix
+//		              + (e.isTemporary() ? " (temporary):" : ":")
+//		              + e.getComponent().getClass().getName()
+//		              + "; Opposite component: "
+//		              + (e.getOppositeComponent() != null ? e.getOppositeComponent().getClass().getName()
+//		                  : "null"));
+		        }
+
+		      });
+
 		panel.add(label4);
 		
 
@@ -253,6 +287,9 @@ public class Payment_Hud extends JFrame implements ActionListener {
 								commPort.close();
 								inStream = null;
 								outStream = null;
+								if(keyboard != null) {
+									keyboard.dispose();
+								}
 								dispose();
 							}
 	    				}
@@ -291,11 +328,17 @@ public class Payment_Hud extends JFrame implements ActionListener {
 					commPort.close();
 					inStream = null;
 					outStream = null;
+					if(keyboard != null) {
+						keyboard.dispose();
+					}
 					dispose();
 				}
 			}
     	}
     	else if(e.getSource() == btnc || e.getSource() == btnc2) {
+    		if(keyboard != null) {
+    			keyboard.dispose();
+    		}
     		dispose();
     	}
     	else {
