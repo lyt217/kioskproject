@@ -255,17 +255,17 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 		seat50.setBounds(60, 131, 1800, 949);
 		x = 0;
 		y = 0;
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 70; i++) {
 			pan[i] = new view_HUD.Seat_pan(i);
-			if (i % 10 == 0 && i != 0) {
+			if (i % 12 == 0 && i != 0) {
 				x = 0;
-				y += 175;
+				y += 145;
 			}
 			// System.out.print("x : " + x + " y :" + y + " ");
 			pan[i].setBounds(x, y, 165, 165);
-			pan[i].x = x + 165;
-			pan[i].y = y + 165 + 10;
-			x += 175;
+			pan[i].x = x + 135;
+			pan[i].y = y + 135 + 10;
+			x += 145;
 		}
 
 		// 셀렉트패널영역
@@ -509,7 +509,7 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 		public void mouseReleased(MouseEvent e) {
 			// System.out.println("x:" + x + " y:" + y);
 			// System.out.println("px:" + pX + " py:" + pY);
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 70; i++) {
 				if (x < pan[i].x && pan[i].x < pX && y < pan[i].y
 						&& pan[i].y < pY)
 					pan[i].checkOn();
@@ -544,13 +544,13 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 			Set<Integer> hs = null;
 			if (i == 1) {
 				hs = new LinkedHashSet<Integer>();
-				for (; hs.size() < 50;) {
-					int x = (int) ((Math.random() * 50));
+				for (; hs.size() < 70;) {
+					int x = (int) ((Math.random() * 70));
 					hs.add(x);
 				}
 			} else {
 				hs = new HashSet<Integer>();
-				for (int a = 0; a < 50; a++)
+				for (int a = 0; a < 70; a++)
 					hs.add(a);
 			}
 			try {
@@ -568,10 +568,10 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 						tmp++;
 						if(tmp>30)
 							Thread.sleep(s*10 -(s*5));
-						if(tmp==50)
+						if(tmp==70)
 						{
 							Thread.sleep(1000);
-							System.out.println("50번째");
+							System.out.println("70번째");
 						}
 							
 						seat50.add(pan[s]);
@@ -726,7 +726,7 @@ public class Manage_Fr_Hud extends Manage implements ActionListener {
 //			}
 //			// 턴오프시트
 		} else if (e.getSource() == turnOffSeat) {
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 70; i++) {
 				if (pan[i].isChecked == true) {
 					vcm.turnOff(i);
 					pan[i].checkOff();

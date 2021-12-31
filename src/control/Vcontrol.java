@@ -81,7 +81,7 @@ public class Vcontrol {
 	public Seat[] pcseat = new Seat[70];
 	static Manage mf;
 	
-	public static MsgToCustomer[] chatClient = new MsgToCustomer[50];
+	public static MsgToCustomer[] chatClient = new MsgToCustomer[70];
 	static Login_Fr login_Fr;
 	static Login_Fr_Hud login_Fr_Hud;
 
@@ -265,7 +265,7 @@ public class Vcontrol {
 	}
 
 	public void allOff() {
-		for(int i = 0 ; i < 50 ; i++) {
+		for(int i = 0 ; i < 70 ; i++) {
 			Seat seat = pcseat[i];
 			if(seat != null) {
 				logout(i);
@@ -436,7 +436,7 @@ public class Vcontrol {
 			peoples.add(new People(num, pcseat[num].getUserame(),
 					"", pcseat[num].getMoney()));
 		} else {
-			for (int a = 0; a < 50; a++) {
+			for (int a = 0; a < 70; a++) {
 				if (mf.pan[a].isChecked && mf.pan[a].isLogined) {
 					peoples.add(new People(a, pcseat[a].getUserame(),
 							"", pcseat[a].getMoney()));

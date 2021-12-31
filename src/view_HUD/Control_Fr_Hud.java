@@ -804,7 +804,7 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 		public void mouseReleased(MouseEvent e) {
 			// System.out.println("x:" + x + " y:" + y);
 			// System.out.println("px:" + pX + " py:" + pY);
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 70; i++) {
 				if (x < pan[i].x && pan[i].x < pX && y < pan[i].y
 						&& pan[i].y < pY)
 					pan[i].checkOn();
@@ -1044,7 +1044,7 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 //			seatThread.start();
 			
 		} else if (e.getSource() == turnOffSeat) {
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 70; i++) {
 				if (pan[i].isChecked == true) {
 					vcm.turnOff(i);
 					pan[i].checkOff();

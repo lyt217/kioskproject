@@ -76,7 +76,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 	public Login_Hud() {
 		// 프레임 기본 설정
 		setTitle("회원 로그인");
-		setSize(1080, 1920);
+		setSize(720, 1280);
+// 		setSize(1080, 1920);
 //		setSize(1440, 2560);
 		
 		setUndecorated(true);
@@ -89,15 +90,17 @@ public class Login_Hud extends JFrame implements ActionListener {
 		
 
 		// 중앙사이즈조절
-		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1080) / 2;
-		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 1920 ) / 2;
+		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 720) / 2;
+		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 1280 ) / 2;
+//		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1080) / 2;
+//		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 1920 ) / 2;
 		// 중앙사이즈조절
 //		int width = (Toolkit.getDefaultToolkit().getScreenSize().width - 1440) / 2;
 //		int height = (Toolkit.getDefaultToolkit().getScreenSize().height - 2560 ) / 2;
 		setLocation(width, height);
 		// 이미지 받아오기
 		try {
-			img = ImageIO.read(new File("img/member_login2.png"));
+			img = ImageIO.read(new File("img/member_login.jpg"));
 //			img = ImageIO.read(new File("img/member_login4.png"));
 
 		} catch (IOException e) {
@@ -107,20 +110,23 @@ public class Login_Hud extends JFrame implements ActionListener {
 
 		// 가장 큰 JLayer패널= 레이어를 순서대로 올려줌
 		JLayeredPane lpane = new JLayeredPane();
-		lpane.setBounds(0, 0, 1080, 1920);
+		lpane.setBounds(0, 0, 720, 1280);
+//		lpane.setBounds(0, 0, 1080, 1920);
 //		lpane.setBounds(0, 0, 1440, 2560);
 		lpane.setLayout(null);
 
 		// 첫번째 panel = 텍스트필드 tf, tf2 들어감.
 		MyPanel panel = new MyPanel();
-		panel.setBounds(0, 0, 1080, 1920);
-		panel.setBounds(0, 0, 1440, 2560);
+		panel.setBounds(0, 0, 720, 1280);
+		// panel.setBounds(0, 0, 1080, 1920);
+		// panel.setBounds(0, 0, 1440, 2560);
 		panel.setLayout(null);
 
 		// 두번째 패널 panel2 = 버튼들어감 , 755 , 689
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(null);
-		panel2.setBounds(0, 0, 1080, 1920);
+		panel2.setBounds(0, 0, 720, 1280);
+		// panel2.setBounds(0, 0, 1080, 1920);
 //		panel2.setBounds(0, 0, 1440, 2560);
 		panel2.setBackground(Color.black);
 		panel2.setOpaque(false);
@@ -132,7 +138,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 		
 		tf = new JTextField(15);
 		tf.setOpaque(false);
-		tf.setBounds(477, 1350, 280, 40);
+		tf.setBounds(318, 900, 280, 40);
+		// tf.setBounds(477, 1350, 280, 40);
 //		tf.setBounds(650, 1820, 280, 40);
 		tf.setForeground(Color.black);
 		tf.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,5,5,5));
@@ -146,7 +153,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 		// 두번째 텍스트 731, 529  -> 891, 619
 		tf2 = new JPasswordField(15);
 		tf2.setOpaque(false);
-		tf2.setBounds(477, 1445, 280, 40);
+		tf2.setBounds(318, 995, 280, 40);
+		// tf2.setBounds(477, 1445, 280, 40);
 //		tf2.setBounds(650, 1940, 280, 40);
 //		tf2.setBackground(Color.white);
 		tf2.setForeground(Color.black);
@@ -163,7 +171,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 //		bt.setContentAreaFilled(false);
 		bt.setOpaque(false);
 //		bt.setBackground(new Color(0x3EAF0E));
-		bt.setBounds(566, 1510, 170, 60);
+		bt.setBounds(377, 1060, 170, 60);
+		// bt.setBounds(566, 1510, 170, 60);
 //		bt.setBounds(750, 2030, 170, 60);
 		bt.addActionListener(this);
 //		bt.setForeground(Color.white);
@@ -182,7 +191,8 @@ public class Login_Hud extends JFrame implements ActionListener {
 //		btj.setContentAreaFilled(false);
 		btj.setOpaque(false);
 //		btj.setBackground(new Color(0xFEE500));
-		btj.setBounds(300, 1510, 200, 60);
+		btj.setBounds(127, 1060, 200, 60);
+		// btj.setBounds(300, 1510, 200, 60);
 //		btj.setBounds(400, 2030, 200, 60);
 		btj.addActionListener(this);
 //		btj.setForeground(Color.black);

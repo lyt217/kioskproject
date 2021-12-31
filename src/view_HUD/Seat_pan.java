@@ -3,6 +3,7 @@ package view_HUD;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -55,12 +56,12 @@ public class Seat_pan extends Seat_panAb implements ActionListener,
 		lpane.setOpaque(false);
 		// 이미지 패널
 		JPanel panel = new InnerPanel();
-		panel.setBounds(0, 0, 165, 165);
+		panel.setBounds(0, 0, 115, 115);
 		panel.setOpaque(false);
 		// 안에 들어갈 내용물들
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(null);
-		panel2.setBounds(0, 0, 165, 165);
+		panel2.setBounds(0, 0, 115, 115);
 
 		int y = 15;
 		for (int a = 0; a < 1; a++) {
@@ -123,7 +124,19 @@ public class Seat_pan extends Seat_panAb implements ActionListener,
 		// 이미지 받아오기 - turnOn, turnOff, gameOn, gameOff
 		try {
 			// System.out.println("이미지 불러옵니다~");
-			img = ImageIO.read(new File("img/" + s + ".png"));
+//			Scalr.resize();
+			BufferedImage inputImage = ImageIO.read(new File("img/" + s + ".png"));
+
+	        BufferedImage outputImage = new BufferedImage(115, 115, inputImage.getType());
+
+	        Graphics2D graphics2D = outputImage.createGraphics();
+	        graphics2D.drawImage(inputImage, 0, 0, 115, 115, null);
+	        graphics2D.dispose();
+
+//	        return outputImage;
+	        
+			img = outputImage;
+			
 		} catch (IOException e) {
 			System.out.println("이미지 "+s+" 불러오기 실패!");
 			System.exit(0);

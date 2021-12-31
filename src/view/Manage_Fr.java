@@ -76,8 +76,8 @@ public class Manage_Fr extends Manage implements ActionListener{
 		seat.setBounds(223, 183, 1440 - 223, 813 - 183); // 1440 813
 		seat.setLayout(new GridLayout(5, 10));
 
-		pan = new Seat_pan[50];
-		for (int a = 0; a < 50; a++) {
+		pan = new Seat_pan[70];
+		for (int a = 0; a < 70; a++) {
 			pan[a] = new Seat_pan(a);
 			seat.add(pan[a]);
 		}

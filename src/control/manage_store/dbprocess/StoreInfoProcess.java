@@ -15,14 +15,14 @@ public class StoreInfoProcess {
 
 	public static boolean updatePassword(int storeId, String newPassword) {
 		boolean flag = false;
-		
-		System.out.println(" >> "+String.valueOf(storeId)+" => "+newPassword);
+
+		System.out.println(" >> " + String.valueOf(storeId) + " => " + newPassword);
 		ResultSet rs = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
 		DBConnectionMgr pool = null;
-		
+
 		try {
 			pool = DBConnectionMgr.getInstance();
 
@@ -39,29 +39,29 @@ public class StoreInfoProcess {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, newPassword);
 			pstmt.setInt(2, storeId);
-			
-			
+
 			if (pstmt.executeUpdate() == 1)
 				flag = true;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
-		
+
 		return flag;
 	}
+
 	public static boolean updatePrice(int storeId, int newPrice) {
 		boolean flag = false;
-		
+
 		ResultSet rs = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
 		DBConnectionMgr pool = null;
-		
+
 		try {
 			pool = DBConnectionMgr.getInstance();
 
@@ -78,29 +78,29 @@ public class StoreInfoProcess {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, newPrice);
 			pstmt.setInt(2, storeId);
-			
-			
+
 			if (pstmt.executeUpdate() == 1)
 				flag = true;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
-		
+
 		return flag;
 	}
+
 	public static boolean checkPassword(String password, String name) {
 		boolean flag = false;
-		
+
 		ResultSet rs = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
 		DBConnectionMgr pool = null;
-		
+
 		try {
 			pool = DBConnectionMgr.getInstance();
 
@@ -126,9 +126,10 @@ public class StoreInfoProcess {
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
-		
+
 		return flag;
 	}
+
 	public static Store checkStore(String exAddress, String inAddress) {
 		ResultSet rs = null;
 		Connection con = null;
@@ -144,7 +145,7 @@ public class StoreInfoProcess {
 		String kioskPassword = "";
 
 		Store newStore = new Store();
-		
+
 		try {
 			pool = DBConnectionMgr.getInstance();
 
@@ -170,7 +171,7 @@ public class StoreInfoProcess {
 				internalAddress = rs.getString("internal_address");
 				krwPerHour = rs.getInt("krw_per_hour");
 				kioskPassword = rs.getString("kiosk_password");
-				
+
 				newStore.setExternalAddress(externalAddress);
 				newStore.setInternalAddress(internalAddress);
 				newStore.setKioskPassword(kioskPassword);
@@ -178,7 +179,6 @@ public class StoreInfoProcess {
 				newStore.setStoreId(storeId);
 				newStore.setStoreName(storeName);
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -188,7 +188,6 @@ public class StoreInfoProcess {
 		}
 		return newStore;
 	}
-	
 
 	public static Store checkStoreOnlyEx(String exAddress) {
 		ResultSet rs = null;
@@ -205,7 +204,7 @@ public class StoreInfoProcess {
 		String kioskPassword = "";
 
 		Store newStore = new Store();
-		
+
 		try {
 			pool = DBConnectionMgr.getInstance();
 
@@ -230,7 +229,7 @@ public class StoreInfoProcess {
 				internalAddress = rs.getString("internal_address");
 				krwPerHour = rs.getInt("krw_per_hour");
 				kioskPassword = rs.getString("kiosk_password");
-				
+
 				newStore.setExternalAddress(externalAddress);
 				newStore.setInternalAddress(internalAddress);
 				newStore.setKioskPassword(kioskPassword);
@@ -238,7 +237,6 @@ public class StoreInfoProcess {
 				newStore.setStoreId(storeId);
 				newStore.setStoreName(storeName);
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -248,7 +246,7 @@ public class StoreInfoProcess {
 		}
 		return newStore;
 	}
-	
+
 	// 회원 DB로 부터 값을 읽어온다
 	public static void readMember(ArrayList<MemberInfo> list) {
 
@@ -295,9 +293,8 @@ public class StoreInfoProcess {
 
 	}
 	// 회원DB에서 값읽어 오는 메소드 종료
-	
-	
-	//특정 회원 정보 불러온다.
+
+	// 특정 회원 정보 불러온다.
 	public static MemberInfo readPerson(String id) {
 
 		ResultSet rs = null;
@@ -305,8 +302,8 @@ public class StoreInfoProcess {
 		PreparedStatement pstmt = null;
 		String sql = null;
 		DBConnectionMgr pool = null;
-		MemberInfo memberInfo=null;
-		
+		MemberInfo memberInfo = null;
+
 		try {
 			pool = DBConnectionMgr.getInstance();
 
@@ -344,7 +341,7 @@ public class StoreInfoProcess {
 	}
 	// 회원DB에서 값읽어 오는 메소드 종료
 
-	//특정 회원 정보 불러온다.
+	// 특정 회원 정보 불러온다.
 	public static int remainSecond(String id) {
 
 		int remainSecond = 0;
@@ -353,8 +350,8 @@ public class StoreInfoProcess {
 		PreparedStatement pstmt = null;
 		String sql = null;
 		DBConnectionMgr pool = null;
-		MemberInfo memberInfo=null;
-		
+		MemberInfo memberInfo = null;
+
 		try {
 			pool = DBConnectionMgr.getInstance();
 
@@ -376,7 +373,7 @@ public class StoreInfoProcess {
 				String tel = rs.getString("tel");
 				String mileage = new Integer(rs.getInt("mileage")).toString();
 				String age = new Integer(rs.getInt("age")).toString();
-				remainSecond = new Integer(rs.getInt("remainSecond")); 
+				remainSecond = new Integer(rs.getInt("remainSecond"));
 				memberInfo = new MemberInfo(id2, tel, mileage, age);
 				num++;
 			}
@@ -392,6 +389,5 @@ public class StoreInfoProcess {
 
 	}
 	// 회원DB에서 값읽어 오는 메소드 종료
-	
 
 }
