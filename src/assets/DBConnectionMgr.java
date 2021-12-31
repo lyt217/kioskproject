@@ -41,7 +41,7 @@ public class DBConnectionMgr {
     private String _driver = "org.gjt.mm.mysql.Driver",
     //private String _driver = "com.mysql.jbdc.Driver",
     
-			_url = "jdbc:mysql://3.35.139.179:3306/test?useUnicode=true&amp;characterEncoding=utf8&connectTimeout=3000&autoReconnect=true",
+			_url = "jdbc:mysql://52.78.238.247:3306/test?useUnicode=true&amp;characterEncoding=utf8&connectTimeout=3000&autoReconnect=true",
     _user = "batwo",
     _password = "Lyt0290";
 
