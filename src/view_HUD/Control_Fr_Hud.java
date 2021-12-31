@@ -907,13 +907,13 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 			Set<Integer> hs = null;
 			if (i == 1) {
 				hs = new LinkedHashSet<Integer>();
-				for (; hs.size() < 50;) {
-					int x = (int) ((Math.random() * 50));
+				for (; hs.size() < 70;) {
+					int x = (int) ((Math.random() * 70));
 					hs.add(x);
 				}
 			} else {
 				hs = new HashSet<Integer>();
-				for (int a = 0; a < 50; a++)
+				for (int a = 0; a < 70; a++)
 					hs.add(a);
 			}
 			try {

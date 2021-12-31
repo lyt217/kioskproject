@@ -78,7 +78,7 @@ public class Vcontrol {
 	// 핵심 필드 : 좌석 객체모델을 저장함과 동시에 소켓을 저장한다.
 	public HashMap<Seat, Socket> clients 
 		= new HashMap<Seat, Socket>();
-	public Seat[] pcseat = new Seat[50];
+	public Seat[] pcseat = new Seat[70];
 	static Manage mf;
 	
 	public static MsgToCustomer[] chatClient = new MsgToCustomer[50];
