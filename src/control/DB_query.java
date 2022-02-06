@@ -130,7 +130,7 @@ public class DB_query {
 				pstmt.setString(1, id);
 			}
 			else {
-				sql = "select password, remainSecond from member where id = ? and storeName = ? and in_use = 0";
+				sql = "select password, remainSecond, in_use from member where id = ? and storeName = ?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, id);
 				pstmt.setString(2, storeName);
@@ -140,6 +140,7 @@ public class DB_query {
 			rs.next();
 			hashPass = rs.getString("password");
 			int remainSec = rs.getInt("remainSecond");
+			int in_use = rs.getInt("in_use");
 			// System.out.println(hashPass);
 
 			//if (BCrypt.checkpw(pass, hashPass))
@@ -161,6 +162,9 @@ public class DB_query {
 			
 			if(flag == 1 && remainSec < 300) {
 				flag = 2;
+			}
+			else if(in_use == 1) {
+				flag = 3;
 			}
 			else if(flag == 1){
 				pstmt.close();

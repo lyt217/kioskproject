@@ -30,12 +30,14 @@ public class DepositMemberProcess {
 		try {
 			con = pool.getConnection();
 			
-			String sql0 = "SELECT * FROM settings";
+			String sql0 = "SELECT * FROM store WHERE id = ?";
 			pstmt = con.prepareStatement(sql0);
+			pstmt.setInt(1, store_id);
+			
 			rs = pstmt.executeQuery();
 			int moneyPerSec = 100000000;
 			while (rs.next()) {
-				moneyPerSec = rs.getInt("money_per_hour");
+				moneyPerSec = rs.getInt("krw_per_hour");
 			}
 			
 			int minute = money * 60 * 60 / moneyPerSec;

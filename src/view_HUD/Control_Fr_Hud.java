@@ -10,6 +10,8 @@ import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -59,10 +61,10 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 	Vcontrol vcm;
 
 	JLabel title, changepwtitle, timetitle, calculatetitle, bonustitle;
-	JTextField tf2, tf3, tf4;
+	JTextField tf2, tf3, tf4, tf5;
 	String inputPassword = "";
 	JPanel panel, pan_navi, pan_clock, adminPWPanel, adminTimePanel;
-	public JButton bt[] = new JButton[10]; // 네비게이션 버튼 4개(화면, 회원, 재고, 매상)
+	public JButton bt[] = new JButton[11]; // 네비게이션 버튼 4개(화면, 회원, 재고, 매상)
 	public JPanel seat50, adminPanel; // 50개 패널을 담기 위한 그릇
 	int pX, pY;
 	int x = 0, y = 0; // 좌표 계속 움직이게 해주는 x, y
@@ -70,6 +72,7 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 	int manageCount = 0;
 	long millisec = 0;
 	JPopupMenu popup;
+    Keyboard2 keyboard = null;
 	JMenuItem allOnSeat, allOffSeat, turnOnSeat, turnOffSeat, calculSeat;
 	JPanel pan_imgClock;
 	Image image, image2, image3;
@@ -146,6 +149,7 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 		bt[6] = new JButton("지우기");
 		bt[7] = new JButton("추가시간");
 		bt[8] = new JButton("시간회수");
+		bt[10] = new JButton("1분서비스");
 		
 
 		bt[0].setBorderPainted(false);
@@ -285,6 +289,56 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 		tf4.setDocument(new JTextFieldLimit(4));
 		panel.add(tf4);
 		
+		tf5 = new RoundJTextField(4);
+		tf5.setBounds(545, 935, 440, 80); 
+		tf5.setFont(font1);
+		tf5.setForeground(Color.black);
+		tf5.setBackground(new Color(193, 239, 254));
+		tf5.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		tf5.setDocument(new JTextFieldLimit(20));
+		panel.add(tf5);
+
+		
+		bt[10].setBorderPainted(false);
+		bt[10].setFocusPainted(false);
+		bt[10].addActionListener(this);
+		bt[10].setForeground(Color.white);
+		bt[10].setBounds(1000, 935, 220, 80);
+		bt[10].setFont(f);
+		bt[10].setOpaque(true);
+		bt[10].setBackground(new Color(51, 202, 253));
+//		bt[0].setBorder(new RoundedBorder(10));
+		panel.add(bt[10]);
+
+		tf5.addFocusListener(new FocusListener() {
+		      public void focusGained(FocusEvent e) {
+//		          displayMessage("Focus gained", e);
+		          if(keyboard == null) {
+		        	  keyboard = new Keyboard2();
+			          keyboard.setPH(Control_Fr_Hud.this);
+			          keyboard.launch();
+		          }
+		          else {
+		        	  keyboard.toFront();
+		          }
+		        }
+
+		        public void focusLost(FocusEvent e) {
+//		        	keyboard.dispose();
+//		        	keyboard = null;
+//		        	displayMessage("Focus lost", e);
+		        }
+
+		        void displayMessage(String prefix, FocusEvent e) {
+//		          System.out.println(prefix
+//		              + (e.isTemporary() ? " (temporary):" : ":")
+//		              + e.getComponent().getClass().getName()
+//		              + "; Opposite component: "
+//		              + (e.getOppositeComponent() != null ? e.getOppositeComponent().getClass().getName()
+//		                  : "null"));
+		        }
+
+		      });
 
 		//비밀번호패널
 		adminPWPanel = new MyPanel("img/btn_password.png");
@@ -1057,7 +1111,34 @@ public class Control_Fr_Hud extends Manage implements ActionListener {
 			// 회원메뉴
 		} else if (e.getSource() == bt[9]) {
 			dispose();
+		} else if (e.getSource() == bt[10]) {
+			try {
+				if(keyboard != null) {
+					keyboard.dispose();
+				}
+				
+				String username = tf5.getText();
+				URL url = new URL("http://52.78.238.247/addservice.php?store="+String.valueOf(vcm.getStore().getStoreId())+"&username="+username);
+				System.out.println(url.toString());
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("GET");
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				StringBuffer stringBuffer = new StringBuffer();
+				String inputLine;
+	
+				while ((inputLine = bufferedReader.readLine()) != null)  {
+					stringBuffer.append(inputLine);
+				}
+				bufferedReader.close();
+				
+
+				JOptionPane.showMessageDialog(null, "1분 서비스 지급 성공!", "",
+						JOptionPane.INFORMATION_MESSAGE);
+			} catch(Exception e3) {
+				e3.printStackTrace();
+			}
 		}
+
 
 	}
 }// 클래스 종료

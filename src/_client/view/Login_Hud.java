@@ -399,6 +399,9 @@ public class Login_Hud extends JFrame implements ActionListener {
 				} else if(existId == 2){
 					JOptionPane.showMessageDialog(null,"잔여시간이 5분 미만입니다.", "요금 충전 후 이용하세요.",
 							JOptionPane.INFORMATION_MESSAGE);
+				} else if(existId == 3){
+					JOptionPane.showMessageDialog(null,"사용중인 아이디 입니다.", "다른 PC에서 이용종료 후 로그인해주세요.",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 				else {
 				

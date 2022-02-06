@@ -28,7 +28,7 @@ public class PeoplesModel extends AbstractTableModel {
 		String name = "??";
 		switch (column) {
 		case 0:
-			name = "자리번호";
+			name = "고유번호";
 			break;
 		case 1:
 			name = "닉네임";

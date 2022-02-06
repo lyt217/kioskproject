@@ -375,14 +375,53 @@ public class Vcontrol {
 				out.writeUTF("요금정보");
 				out.writeInt(money);
 				out.writeUTF(gametime);
+				out.writeInt(remainsecond);
 
 				int num = pcseat.getNum_seat();
+				if(remainsecond <= 300 && remainsecond > 290) {
+					mf.pan[num].setBackground(Color.RED);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.WHITE);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.RED);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.WHITE);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.RED);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.WHITE);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.RED);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.WHITE);
+				}
+				else if(remainsecond <= 120 && remainsecond > 110) {
+					mf.pan[num].setBackground(Color.RED);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.WHITE);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.RED);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.WHITE);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.RED);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.WHITE);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.RED);
+					Thread.sleep(1000);
+					mf.pan[num].setBackground(Color.WHITE);
+				}
+				
 				mf.pan[num].label[0].setText(gametime);
 
 			}
 		} catch (IOException e) {
 			System.out.println("브이컨트롤 : 요금정보 메시지 보내는데 애로사항이 꽃핀다. ");
 			logout(pcseat.getNum_seat());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

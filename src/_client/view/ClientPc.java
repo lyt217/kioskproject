@@ -2,6 +2,11 @@ package _client.view;
 
 import java.awt.*;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 import java.awt.event.*;
@@ -44,6 +49,7 @@ public class ClientPc {// 클라이언트 클래스 시작
 		String originPc = String.valueOf(Integer.parseInt(pc) + 1);
 		this.kiosk = kioskIp;
 		clFrame = new JFrame("이용중");
+		clFrame.setUndecorated(true);
 		clFrame.setLocationByPlatform( true );
 		clFrame.addWindowListener(getWindowAdapter());
 		// 현재 스크린사이즈를 받아온다
@@ -63,43 +69,45 @@ public class ClientPc {// 클라이언트 클래스 시작
 
 		// 버튼
 		JButton chatBtn = new JButton("채팅");
-		JButton menuBtn = new JButton("이용종료");
+		JButton menuBtn = new JButton("종료");
 
 		// 컴포넌트가 붙을 패널 생성
 		JPanel panel = new JPanel();
 
 		// 컴포넌트 배치부
-		pc_label.setBounds(30, 30, 95, 30);
-		id_label.setBounds(30, 5, 95, 30);
-		time_label.setBounds(30, 55, 95, 30);
-		price_label.setBounds(30, 80, 95, 30);
-		userId.setBounds(130, 5, 95, 30);
-		userPc.setBounds(130, 30, 95, 30);
-		userTime.setBounds(130, 55, 95, 30);
-		userPrice.setBounds(130, 80, 95, 30);
-		chatBtn.setBounds(30, 120, 95, 30);
-		menuBtn.setBounds(150, 120, 95, 30);
+		pc_label.setBounds(10, 30, 85, 30);
+		
+		id_label.setBounds(10, 5, 65, 30);
+		userId.setBounds(80, 5, 55, 30);
+		time_label.setBounds(140, 5, 65, 30);
+		userTime.setBounds(210, 5, 55, 30);
+		menuBtn.setBounds(270, 5, 75, 30);
 
+		price_label.setBounds(10, 55, 85, 30);
+		userPc.setBounds(100, 30, 95, 30);
+		userPrice.setBounds(100, 55, 95, 30);
+		chatBtn.setBounds(30, 95, 95, 30);
+		
 		// 컴포넌트 결합부
-		panel.add(pc_label);
+//		panel.add(pc_label);
 		panel.add(id_label);
 		panel.add(time_label);
 		panel.add(userId);
 		panel.add(userTime);
-		panel.add(userPc);
+//		panel.add(userPc);
 		panel.add(userPrice);
 		// panel.add(chatBtn);
 		panel.add(menuBtn);
 //		panel.add(price_label);
 		panel.setLayout(null);
-		clFrame.add(panel);
+		clFrame.setContentPane(panel);
 
 		// 버튼 이벤트 처리부
 		chatBtn.addActionListener(new ChatEvent());
 		menuBtn.addActionListener(new MenuEvent());
 
 		// 현재 프레임 위치 및 크기
-		clFrame.setBounds(width - 300, height / 5 - 100, 270, 200);
+		clFrame.setBounds(0, 0, 380, 40);
 		clFrame.setResizable(false);
 
 		// 유저가 창을 강제 종료시키면 안되므로
@@ -222,6 +230,17 @@ public class ClientPc {// 클라이언트 클래스 시작
 						Integer money = in.readInt();
 //						userPrice.setText(money.toString());
 						userTime.setText(in.readUTF());
+						Integer remainSecond = in.readInt();
+
+						System.out.println(remainSecond);
+						if(remainSecond > 290 && remainSecond <= 300) {
+							//playSound("5.mp3");
+							twinkle();
+						}
+						if(remainSecond <= 180) {
+							//playSound("2.mp3");
+							twinkle();
+						}
 					}
 					// 채팅메시지 처리부
 					if (str.equals("메시지")) {
@@ -237,13 +256,31 @@ public class ClientPc {// 클라이언트 클래스 시작
 					// 로그아웃 처리부
 					if (str.equals("로그아웃")) {
 						System.out.println("Lets Logout");
-						Robot r = new Robot();
-						r.setAutoDelay(250);
-						r.keyPress(KeyEvent.VK_HOME);
+
+						try {
+							for(int i = 0 ; i < 6 ; i++) {
+					            robot = new Robot();
+					            robot.setAutoDelay(250);
+					            robot.keyPress(KeyEvent.VK_ALT);
+					            
+					            for(int j = 0 ; j < i ; j++) {
+						            robot.keyPress(KeyEvent.VK_TAB);
+						            robot.setAutoDelay(50);
+						            robot.keyRelease(KeyEvent.VK_TAB);
+					            }
+					            robot.keyRelease(KeyEvent.VK_ALT);
+					            
+					            robot.keyPress(KeyEvent.VK_HOME);
+					            robot.keyRelease(KeyEvent.VK_HOME);
+							}
+				        } catch (AWTException ex) {
+				            ex.printStackTrace();
+				        } finally {
+							// doClient = false;
+							timerRunnerble.setStop(true);
+							executor.shutdown();
+				        }
 						
-						// doClient = false;
-						timerRunnerble.setStop(true);
-						executor.shutdown();
 						
 						
 						try{
@@ -279,9 +316,6 @@ public class ClientPc {// 클라이언트 클래스 시작
 				login_Fr_Hud = new Login_Hud();
 				// }
 
-			} catch (AWTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} finally {
 
 				if (in != null) {
@@ -302,6 +336,51 @@ public class ClientPc {// 클라이언트 클래스 시작
 
 		}
 
+	}
+	public void playSound(String soundFile) {
+		Clip clip;
+		try {
+		    File f = new File("C:\\jdk\\"+soundFile);
+		    AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());  
+		    
+			clip = AudioSystem.getClip();
+		    clip.open(audioIn);
+		    clip.start();
+	    } catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
+
+	public void twinkle() {
+		//clFrame.getContentPane().setBackground(Color.RED);
+		try {
+			clFrame.toFront();
+			clFrame.getContentPane().setBackground(Color.RED);
+			TimeUnit.SECONDS.sleep(1);
+			clFrame.getContentPane().setBackground(Color.WHITE);
+			TimeUnit.SECONDS.sleep(1);
+			clFrame.getContentPane().setBackground(Color.RED);
+			TimeUnit.SECONDS.sleep(1);
+			clFrame.getContentPane().setBackground(Color.WHITE);
+			TimeUnit.SECONDS.sleep(1);
+			clFrame.getContentPane().setBackground(Color.RED);
+			TimeUnit.SECONDS.sleep(1);
+			clFrame.getContentPane().setBackground(Color.WHITE);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 //	 public static final String getActiveWindowText() {
 //        long /*int*/ handle = OS.GetForegroundWindow();
